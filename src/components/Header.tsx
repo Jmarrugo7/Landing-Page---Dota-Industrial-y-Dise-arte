@@ -5,9 +5,12 @@ import { useBrand } from '../hooks/useBrand'
 import { getWhatsAppUrl } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
 
-interface Props { active: 'inicio' | 'productos' | 'contacto' | 'visitanos' }
+interface Props {
+  active: 'inicio' | 'productos' | 'contacto' | 'visitanos'
+  onSelect?: (id: 'inicio' | 'productos' | 'contacto' | 'visitanos') => void
+}
 
-export default function Header({ active }: Props) {
+export default function Header({ active, onSelect }: Props) {
   const reduced = useReducedMotion()
   const { brandId, brand, toggle } = useBrand()
   const whatsappUrl = getWhatsAppUrl(brand.whatsappPhone, brand.whatsappMessage)
@@ -36,17 +39,28 @@ export default function Header({ active }: Props) {
     }
   }, [menuOpen])
 
-  const handleNavClick = useCallback((id: string) => {
-    setMenuOpen(false)
-    // Small delay to let the menu close animation start
-    setTimeout(() => {
-      const el = document.getElementById(id)
-      if (el) {
-        el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
-        history.replaceState(null, '', `#${id}`)
+  const handleNavClick = useCallback(
+    (id: 'inicio' | 'productos' | 'contacto' | 'visitanos', isMobile = false) => {
+      onSelect?.(id)
+      if (isMobile) {
+        setMenuOpen(false)
+        setTimeout(() => {
+          const el = document.getElementById(id)
+          if (el) {
+            el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+            history.replaceState(null, '', `#${id}`)
+          }
+        }, 100)
+      } else {
+        const el = document.getElementById(id)
+        if (el) {
+          el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+          history.replaceState(null, '', `#${id}`)
+        }
       }
-    }, 100)
-  }, [reduced])
+    },
+    [reduced, onSelect],
+  )
 
   const navItems: { id: 'inicio' | 'productos' | 'contacto' | 'visitanos'; label: string; dotaOnly?: boolean }[] = [
     { id: 'inicio', label: 'Inicio' },
@@ -63,10 +77,20 @@ export default function Header({ active }: Props) {
       key={id}
       href={`#${id}`}
       aria-current={active === id ? 'page' : undefined}
+      onClick={(e) => {
+        e.preventDefault()
+        handleNavClick(id, false)
+      }}
       className={`relative flex min-h-11 items-center px-2 text-[1.0625rem] font-medium transition-colors hover:text-accent sm:px-3 ${active === id ? 'text-ink' : 'text-soft'}`}
     >
       {label}
-      {active === id && <motion.span layoutId="nav-bar" className="absolute inset-x-2 -bottom-px h-[3px] rounded-full bg-accent sm:inset-x-3" transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 34 }} />}
+      {active === id && (
+        <motion.span
+          layoutId="nav-bar"
+          className="absolute inset-x-2 -bottom-px h-[3px] rounded-full bg-accent sm:inset-x-3"
+          transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 34 }}
+        />
+      )}
     </a>
   )
 
@@ -196,7 +220,7 @@ export default function Header({ active }: Props) {
                   <motion.a
                     key={item.id}
                     href={`#${item.id}`}
-                    onClick={(e) => { e.preventDefault(); handleNavClick(item.id) }}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(item.id, true) }}
                     initial={reduced ? false : { opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + i * 0.06, duration: 0.3 }}

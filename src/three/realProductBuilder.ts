@@ -8,9 +8,9 @@ import type { ProductKind } from './builders'
 export const PRODUCT_REAL_IMAGES: Record<ProductKind, string> = {
   taladro: '/assets/products/Taladro%20silueta.png',
   tablero: '/assets/products/Tablero%20Silueta.png',
-  esmeriladora: '/assets/products/esmeriladora%20original.png',
+  esmeriladora: '/assets/products/esmeriladora-dewalt.png',
   alicates: '/assets/products/alicates.webp',
-  casco: '/assets/products/casco.webp',
+  casco: '/assets/products/casco-reflectivo.png',
   cinta: '/assets/products/cinta.webp',
   cable: '/assets/products/cable.webp',
   tomacorriente: '/assets/products/tomacorriente.webp',

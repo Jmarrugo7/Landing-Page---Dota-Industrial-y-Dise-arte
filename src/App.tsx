@@ -18,12 +18,16 @@ import type { Product } from './data/products'
 import type { DisenProduct } from './data/disenProducts'
 import { BRANDS } from './data/brands'
 
+type SectionId = 'inicio' | 'productos' | 'contacto' | 'visitanos'
+
 function AppContent() {
   const { brandId, brand } = useBrand()
   const [selectedDota, setSelectedDota] = useState<Product | null>(null)
   const [selectedDisen, setSelectedDisen] = useState<DisenProduct | null>(null)
-  const [section, setSection] = useState<'inicio' | 'productos' | 'contacto' | 'visitanos'>('inicio')
+  const [section, setSection] = useState<SectionId>('inicio')
   const opener = useRef<HTMLElement | null>(null)
+  const isManualNav = useRef(false)
+  const manualNavTimer = useRef<number | null>(null)
 
   // Dota handlers
   const openDotaDetails = useCallback((p: Product, el: HTMLElement) => { opener.current = el; setSelectedDota(p) }, [])
@@ -37,27 +41,90 @@ function AppContent() {
     if (opener.current?.isConnected) opener.current.focus()
   }, [])
 
+  // Immediate selection on nav click (instant visual indicator feedback)
+  const handleNavSelect = useCallback((id: SectionId) => {
+    setSection(id)
+    isManualNav.current = true
+    if (manualNavTimer.current) window.clearTimeout(manualNavTimer.current)
+    manualNavTimer.current = window.setTimeout(() => {
+      isManualNav.current = false
+    }, 850)
+  }, [])
+
+  // Scroll spy detection that tracks active section across both brands
   useEffect(() => {
-    const ids: ('inicio' | 'productos' | 'contacto' | 'visitanos')[] = [
-      'inicio',
-      'productos',
-      'contacto',
-      'visitanos',
-    ]
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach(
-          (e) =>
-            e.isIntersecting &&
-            setSection(e.target.id as 'inicio' | 'productos' | 'contacto' | 'visitanos'),
-        ),
-      { rootMargin: '-45% 0px -50% 0px' },
-    )
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) io.observe(el)
-    })
-    return () => io.disconnect()
+    const ids: SectionId[] = ['inicio', 'productos', 'contacto', 'visitanos']
+    let rafId: number | null = null
+
+    const updateActiveSection = () => {
+      if (isManualNav.current) return
+
+      const scrollY = window.scrollY
+      const innerHeight = window.innerHeight
+      const scrollHeight = document.documentElement.scrollHeight
+
+      // 1. Top of page
+      if (scrollY < 100) {
+        setSection('inicio')
+        return
+      }
+
+      // 2. Bottom of page
+      if (innerHeight + scrollY >= scrollHeight - 60) {
+        setSection('visitanos')
+        return
+      }
+
+      // 3. Middle sections: check which section intersects the trigger line (offset from top of viewport)
+      const triggerY = 160
+      let activeId: SectionId | null = null
+
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= triggerY && rect.bottom > triggerY) {
+          activeId = id
+          break
+        }
+      }
+
+      // Fallback: pick the latest section whose top has scrolled past triggerY
+      if (!activeId) {
+        for (let i = ids.length - 1; i >= 0; i--) {
+          const el = document.getElementById(ids[i])
+          if (el && el.getBoundingClientRect().top <= triggerY) {
+            activeId = ids[i]
+            break
+          }
+        }
+      }
+
+      if (activeId) {
+        setSection(activeId)
+      }
+    }
+
+    const onScrollOrResize = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(updateActiveSection)
+    }
+
+    window.addEventListener('scroll', onScrollOrResize, { passive: true })
+    window.addEventListener('resize', onScrollOrResize, { passive: true })
+
+    // Check right away and after brand transitions
+    onScrollOrResize()
+    const t1 = window.setTimeout(onScrollOrResize, 100)
+    const t2 = window.setTimeout(onScrollOrResize, 600)
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', onScrollOrResize)
+      window.removeEventListener('resize', onScrollOrResize)
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+    }
   }, [brandId])
 
   // Apply brand colors via CSS custom properties
@@ -102,7 +169,7 @@ function AppContent() {
     <>
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
       <div id="app-root">
-        <Header active={section} />
+        <Header active={section} onSelect={handleNavSelect} />
         <main id="contenido" tabIndex={-1} className="outline-none">
           <AnimatePresence mode="wait">
             {brandId === 'dota' ? (

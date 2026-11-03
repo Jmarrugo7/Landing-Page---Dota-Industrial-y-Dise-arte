@@ -1,13 +1,27 @@
-export type DisenCategory = 'Bordados' | 'Estampados' | 'Personalizado' | 'Accesorios'
-export const DISEN_CATEGORIES: ('Todos' | DisenCategory)[] = ['Todos', 'Bordados', 'Estampados', 'Personalizado', 'Accesorios']
+export type DisenCategory =
+  | 'Ropa personalizada'
+  | 'Bordados'
+  | 'Artículos personalizados'
+  | 'Publicidad y señalización'
+  | 'Accesorios'
+export const DISEN_CATEGORIES: ('Todos' | DisenCategory)[] = [
+  'Todos',
+  'Ropa personalizada',
+  'Bordados',
+  'Artículos personalizados',
+  'Publicidad y señalización',
+  'Accesorios',
+]
 
 export interface DisenProduct {
   id: string
   name: string
+  /** Precio en COP. 0 = «Consultar precio». */
   price: number
   category: DisenCategory
   description: string
-  features: [string, string, string]
+  /** Lista de los productos o servicios de la categoría (ya no es una tupla fija de 3). */
+  features: string[]
   featured?: boolean
   inCarousel?: boolean
   alt: string
@@ -15,73 +29,70 @@ export interface DisenProduct {
   has3d?: boolean
 }
 
-/** Productos de Diseñarte (demostrativos). */
+/**
+ * Catálogo de Diseñarte: una ficha por categoría, con una sola imagen cada una.
+ * La lista de productos de cada categoría va en `features`.
+ */
 export const DISEN_PRODUCTS: DisenProduct[] = [
   {
-    id: 'bordado-floral',
-    name: 'Bordado Floral Artesanal',
-    price: 85000,
-    category: 'Bordados',
+    id: 'ropa-personalizada',
+    name: 'Ropa Personalizada',
+    price: 0,
+    category: 'Ropa personalizada',
     featured: true,
     inCarousel: true,
-    image: '/assets/products/Bordado%20Floral%20Artesanal.png',
-    has3d: true,
-    description: 'Delicado bordado floral a mano sobre bastidor de madera y tela de algodón. Perfecto para cuadros decorativos o personalizar prendas.',
-    features: ['100% hecho a mano', 'Bastidor de madera incluido', 'Hilos de algodón premium'],
-    alt: 'Bordado floral artesanal en bastidor de madera con flores y margaritas',
+    image: '/assets/products/disenarte-ropa-personalizada.png?v=1',
+    description: 'Camisetas, polos, buzos y chaquetas con tu marca, nombre o equipo. Estampados en DTF, sublimado y vinilo textil.',
+    features: ['Camisetas deportivas y sublimadas', 'Polos corporativos y deportivos', 'Buzos y suéteres con capota', 'Chaquetas con cierre'],
+    alt: 'Polos, camiseta deportiva, buzo con capota y chaqueta personalizados con textos de muestra',
   },
   {
-    id: 'camiseta-estampada', name: 'Camiseta con Estampado Personalizado', price: 65000, category: 'Estampados', inCarousel: true,
-    description: 'Camiseta de algodón con estampado a full color. Ideal para eventos, equipos de trabajo o regalos especiales.',
-    features: ['Algodón 100%', 'Estampado sublimado', 'Tallas S a XL'], alt: 'Camiseta blanca con estampado personalizado a color',
+    id: 'bordados',
+    name: 'Bordados',
+    price: 0,
+    category: 'Bordados',
+    inCarousel: true,
+    image: '/assets/products/disenarte-bordados.png?v=1',
+    description: 'Bordados con hilo de calidad, relieve y mucho detalle para instituciones, empresas y marcas.',
+    features: ['Bordados institucionales: escudos de colegios e instituciones', 'Bordados empresariales: logos en uniformes y dotación', 'Gorras y polos corporativos bordados', 'Parches bordados premium'],
+    alt: 'Gorra, polo corporativo, uniforme y parches con bordados de muestra',
   },
   {
-    id: 'gorra-bordada', name: 'Gorra Bordada Corporativa', price: 45000, category: 'Bordados', inCarousel: true,
-    description: 'Gorra de alta calidad con bordado 3D de tu logo o diseño. Perfecta para uniformes corporativos.',
-    features: ['Bordado 3D en relieve', 'Ajuste regulable', 'Colores personalizables'], alt: 'Gorra negra con bordado de logo empresarial',
+    id: 'articulos-personalizados',
+    name: 'Artículos Personalizados',
+    price: 0,
+    category: 'Artículos personalizados',
+    inCarousel: true,
+    image: '/assets/products/disenarte-articulos-personalizados.png?v=1',
+    description: 'Detalles con tu marca o diseño para regalar, obsequiar a tus clientes o usar en tu empresa.',
+    features: ['Mugs personalizados', 'Vasos térmicos', 'Termos metálicos', 'Llaveros', 'Agendas', 'Portadocumentos', 'Cajas de regalo personalizadas'],
+    alt: 'Mug, vaso térmico, termo, llavero, agenda, portadocumentos y caja de regalo con textos de muestra',
   },
   {
-    id: 'tote-bag', name: 'Tote Bag Estampada', price: 38000, category: 'Estampados', inCarousel: true,
-    description: 'Bolso de tela ecológico con diseño estampado exclusivo. Resistente y perfecto para uso diario.',
-    features: ['Tela resistente', 'Asas reforzadas', 'Diseño ecológico'], alt: 'Bolso de tela con diseño estampado artístico',
+    id: 'publicidad-senalizacion',
+    name: 'Publicidad y Señalización',
+    price: 0,
+    category: 'Publicidad y señalización',
+    inCarousel: true,
+    image: '/assets/products/disenarte-publicidad-senalizacion.png?v=1',
+    description: 'Publicidad y señalización a la medida para dar visibilidad a tu negocio, evento o empresa.',
+    features: ['Pendones publicitarios', 'Avisos comerciales', 'Señalización empresarial', 'Stickers y etiquetas personalizadas'],
+    alt: 'Pendón publicitario, aviso comercial, señal empresarial, stickers y etiquetas con textos de muestra',
   },
   {
-    id: 'polo-empresarial', name: 'Polo Empresarial Bordado', price: 75000, category: 'Personalizado', inCarousel: true,
-    description: 'Polo empresarial con tu logo bordado en el pecho. Ideal para uniformar a tu equipo con elegancia.',
-    features: ['Tela polo premium', 'Bordado de logo', 'Variedad de colores'], alt: 'Polo azul con logo bordado en el pecho',
-  },
-  {
-    id: 'parche-bordado', name: 'Parches Bordados a Medida', price: 12000, category: 'Accesorios', inCarousel: true,
-    description: 'Parches bordados con tu diseño personalizado. Ideales para chaquetas, mochilas o gorras.',
-    features: ['Borde termosellado', 'Mínimo 10 unidades', 'Diseño libre'], alt: 'Conjunto de parches bordados con diferentes diseños',
-  },
-  {
-    id: 'cojin-personalizado', name: 'Cojín Personalizado', price: 55000, category: 'Personalizado',
-    description: 'Cojín decorativo con tu foto o diseño favorito estampado en sublimación de alta definición.',
-    features: ['Sublimación full HD', 'Relleno incluido', 'Lavable'], alt: 'Cojín decorativo con foto personalizada',
-  },
-  {
-    id: 'mandil-bordado', name: 'Mandil con Bordado', price: 48000, category: 'Bordados',
-    description: 'Mandil profesional con nombre o logo bordado. Perfecto para chefs, baristas y artesanos.',
-    features: ['Tela resistente', 'Bolsillos funcionales', 'Bordado personalizado'], alt: 'Mandil de cocina con nombre bordado',
-  },
-  {
-    id: 'llavero-bordado', name: 'Llavero Bordado Artesanal', price: 15000, category: 'Accesorios',
-    description: 'Pequeño llavero bordado a mano con diseños exclusivos. Un detalle único para regalar.',
-    features: ['Hecho a mano', 'Diseños únicos', 'Argolla metálica'], alt: 'Llavero pequeño con bordado artesanal',
-  },
-  {
-    id: 'banner-estampado', name: 'Banner Publicitario', price: 120000, category: 'Estampados',
-    description: 'Banner de tela con impresión full color para eventos, ferias y puntos de venta.',
-    features: ['Impresión de alta resolución', 'Tela resistente', 'Incluye ojales'], alt: 'Banner publicitario de tela con diseño a color',
+    id: 'accesorios',
+    name: 'Accesorios',
+    price: 0,
+    category: 'Accesorios',
+    inCarousel: true,
+    image: '/assets/products/disenarte-accesorios.png?v=1',
+    description: 'Accesorios con tu logo o marca para empresas, emprendimientos, colegios y equipos deportivos.',
+    features: ['Gorras bordadas', 'Lanyards', 'Mochilas', 'Tote bags', 'Llaveros personalizados'],
+    alt: 'Gorras bordadas, lanyards, mochilas, tote bags y llaveros con textos de muestra',
   },
 ]
 
 export const DISEN_CAROUSEL = DISEN_PRODUCTS.filter((p) => p.inCarousel)
 
 /** Devuelve la imagen del producto si está disponible, o vacío. */
-export const disenImgOf = (p: Pick<DisenProduct, 'id'> & { image?: string }) => {
-  if (p.image) return p.image
-  if (p.id === 'bordado-floral') return '/assets/products/Bordado%20Floral%20Artesanal.png'
-  return ''
-}
+export const disenImgOf = (p: Pick<DisenProduct, 'id'> & { image?: string }) => p.image ?? ''

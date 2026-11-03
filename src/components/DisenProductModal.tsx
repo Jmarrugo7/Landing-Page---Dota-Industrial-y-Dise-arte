@@ -5,6 +5,8 @@ import { disenImgOf, type DisenProduct } from '../data/disenProducts'
 import { useWebGL } from '../hooks/useWebGL'
 import { ErrorBoundary } from './ErrorBoundary'
 import type { ProductKind } from '../three/builders'
+import { BRANDS, getWhatsAppUrl } from '../data/brands'
+import { WhatsAppIcon } from './WhatsAppIcon'
 
 const ModelViewer = lazy(() => import('../three/ModelViewer'))
 
@@ -28,9 +30,15 @@ export default function DisenProductModal({ product: p, onClose }: Props) {
   const show3d = view === '3d' && webgl && !viewerFailed && p.has3d
 
   const formatPrice = (n: number) => {
+    if (n <= 0) return 'Cotizar personalizado'
     const cop = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
     return cop.format(n)
   }
+
+  const quoteUrl = getWhatsAppUrl(
+    BRANDS.disenarte.whatsappPhone,
+    `¡Hola Diseñarte! Deseo cotizar productos de la categoría "${p.name}".`,
+  )
 
   useEffect(() => {
     closeBtn.current?.focus()
@@ -138,8 +146,17 @@ export default function DisenProductModal({ product: p, onClose }: Props) {
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-8">
-            <button type="button" onClick={onClose} className="btn btn-accent min-h-14 w-full px-7">
+          <div className="mt-auto pt-8 flex flex-col sm:flex-row gap-3">
+            <a
+              href={quoteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-whatsapp min-h-14 flex-1 gap-2.5 text-base font-bold shadow-[0_4px_18px_rgba(37,211,102,0.32)]"
+            >
+              <WhatsAppIcon className="h-5 w-5 fill-current" />
+              <span>Cotizar por WhatsApp</span>
+            </a>
+            <button type="button" onClick={onClose} className="btn btn-ghost min-h-14 px-8 text-base font-semibold">
               Cerrar
             </button>
           </div>

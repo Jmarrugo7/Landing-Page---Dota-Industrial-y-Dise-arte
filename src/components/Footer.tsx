@@ -132,13 +132,11 @@ export default function Footer() {
                   Productos
                 </a>
               </li>
-              {isDota && (
-                <li>
-                  <a href="#contacto" className="transition-colors hover:text-accent">
-                    Contacto & Asesoría
-                  </a>
-                </li>
-              )}
+              <li>
+                <a href="#contacto" className="transition-colors hover:text-accent">
+                  {isDota ? 'Contacto & Asesoría' : 'Contacto & Cotización'}
+                </a>
+              </li>
               <li>
                 <a href="#visitanos" className="transition-colors hover:text-accent">
                   Visítanos & Horarios

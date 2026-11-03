@@ -4,6 +4,8 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { formatPrice, imgOf, type Product } from '../data/products'
 import { useWebGL } from '../hooks/useWebGL'
 import { ErrorBoundary } from './ErrorBoundary'
+import { BRANDS, getWhatsAppUrl } from '../data/brands'
+import { WhatsAppIcon } from './WhatsAppIcon'
 
 const ModelViewer = lazy(() => import('../three/ModelViewer'))
 
@@ -20,8 +22,14 @@ export default function ProductModal({ product: p, onClose }: Props) {
   const descId = useId()
   const dialog = useRef<HTMLDivElement>(null)
   const closeBtn = useRef<HTMLButtonElement>(null)
-  const [view, setView] = useState<'3d' | 'img'>('3d')
+  const has3d = !!p.model // solo los productos con modelo 3D muestran «Vista 3D»
+  const [view, setView] = useState<'3d' | 'img'>(has3d ? '3d' : 'img')
   const [viewerFailed, setViewerFailed] = useState(false)
+
+  const quoteUrl = getWhatsAppUrl(
+    BRANDS.dota.whatsappPhone,
+    `¡Hola Dota Industrial! Me interesa el producto "${p.name}". Quisiera más información y cotización.`,
+  )
 
   useEffect(() => {
     closeBtn.current?.focus()
@@ -45,7 +53,7 @@ export default function ProductModal({ product: p, onClose }: Props) {
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
   }
 
-  const show3d = view === '3d' && webgl && !viewerFailed
+  const show3d = has3d && view === '3d' && webgl && !viewerFailed
 
   return createPortal(
     <motion.div
@@ -74,13 +82,13 @@ export default function ProductModal({ product: p, onClose }: Props) {
           {show3d ? (
             <ErrorBoundary fallback={null} onError={() => setViewerFailed(true)}>
               <Suspense fallback={<img src={imgOf(p)} alt="" className="absolute inset-0 h-full w-full object-contain p-6 opacity-60" />}>
-                <ModelViewer kind={p.id} label={p.name} reduced={reduced} />
+                <ModelViewer kind={p.model!} label={p.name} reduced={reduced} />
               </Suspense>
             </ErrorBoundary>
           ) : (
             <img src={imgOf(p)} alt={p.alt} width={900} height={900} className="absolute inset-0 h-full w-full object-contain p-6" />
           )}
-          {webgl && !viewerFailed && (
+          {has3d && webgl && !viewerFailed && (
             <div role="group" aria-label="Tipo de vista" className="absolute bottom-3 left-3 flex gap-1 rounded-full bg-bg p-1">
               {(['3d', 'img'] as const).map((v) => (
                 <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className={`min-h-10 rounded-full px-4 font-semibold transition-colors ${view === v ? 'bg-accent text-accent-ink' : 'text-ink hover:bg-surface-3'}`}>
@@ -107,8 +115,17 @@ export default function ProductModal({ product: p, onClose }: Props) {
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-8">
-            <button type="button" onClick={onClose} className="btn btn-accent min-h-14 w-full px-7">
+          <div className="mt-auto pt-8 flex flex-col sm:flex-row gap-3">
+            <a
+              href={quoteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent min-h-14 flex-1 gap-2.5 text-base font-bold shadow-[0_4px_18px_rgba(255,196,0,0.32)]"
+            >
+              <WhatsAppIcon className="h-5 w-5 fill-current" />
+              <span>Cotizar por WhatsApp</span>
+            </a>
+            <button type="button" onClick={onClose} className="btn btn-ghost min-h-14 px-8 text-base font-semibold">
               Cerrar
             </button>
           </div>
