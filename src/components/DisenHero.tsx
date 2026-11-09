@@ -77,8 +77,10 @@ export default function DisenHero({ modalOpen, onDetails }: Props) {
           className="hero-bg-img"
           style={{ objectPosition: 'center center' }}
         />
-        {/* Gradiente oscuro izquierdo para legibilidad del texto */}
-        <div className="disen-hero-bg-gradient-left" />
+        {/* Capa oscura general uniforme calibrada para Diseñarte */}
+        <div className="disen-hero-bg-overlay" />
+        {/* Gradiente superior suave */}
+        <div className="hero-bg-gradient-top" />
         {/* Gradiente inferior para transición suave */}
         <div className="hero-bg-gradient-bottom" />
       </div>
@@ -241,16 +243,18 @@ function DisenCoverflow({ items, active, onSelect }: { items: DisenProduct[]; ac
                     pointerEvents: a > 2 ? 'none' : 'auto',
                   }}
                 >
-                  {/* Product tile: image if available, else placeholder icon */}
+                  {/* Product tile: image matches Dota's full-size presentation */}
                   {disenImgOf(p) ? (
-                    <div className="flex flex-col items-center justify-center h-full w-full p-2">
-                      <img
-                        src={disenImgOf(p)}
-                        alt={p.alt}
-                        className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-transform duration-300"
-                      />
-                      <span className="text-[0.65rem] text-soft text-center leading-tight px-1 line-clamp-1 mt-1 font-medium">{p.name}</span>
-                    </div>
+                    <img
+                      src={disenImgOf(p)}
+                      alt=""
+                      width={900}
+                      height={900}
+                      loading="eager"
+                      decoding="async"
+                      draggable={false}
+                      className="h-full w-full object-contain p-1 drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] transition-transform duration-300"
+                    />
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full w-full gap-1">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>

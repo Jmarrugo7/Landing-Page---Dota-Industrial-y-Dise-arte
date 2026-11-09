@@ -13,6 +13,7 @@ export interface BrandConfig {
   productsSubtitle: string
   colors: {
     accent: string
+    accentSecondary: string
     accentInk: string
     accentHover: string
     bg: string
@@ -41,6 +42,7 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
     productsSubtitle: 'Explora nuestra selección de productos, diseñados para ofrecerte calidad, resistencia y el mejor rendimiento.',
     colors: {
       accent: '#ffc400',
+      accentSecondary: '#e11d24',
       accentInk: '#111214',
       accentHover: '#ffd23d',
       bg: '#07080a',
@@ -68,6 +70,7 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
     productsSubtitle: 'Descubre nuestra colección de bordados y estampados artesanales, creados con pasión y dedicación en cada detalle.',
     colors: {
       accent: '#e8618c',
+      accentSecondary: '#f43f5e',
       accentInk: '#fff',
       accentHover: '#f07da3',
       bg: '#0c0810',
@@ -79,7 +82,7 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
     },
     heroBg: '/assets/products/Fondo%20Hero%20Dise%C3%B1arte.png',
     logoUrl: '/assets/products/Logo%20diseñarte.png',
-    whatsappPhone: '573023067887',
+    whatsappPhone: '573245516942',
     whatsappMessage: '¡Hola! Me comunico desde la página web de Diseñarte. Quisiera consultar y cotizar un diseño personalizado de bordado o estampado.',
   },
 }

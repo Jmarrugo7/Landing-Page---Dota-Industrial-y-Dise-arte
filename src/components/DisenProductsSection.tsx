@@ -2,14 +2,31 @@ import { useRef, useState } from 'react'
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion, useSpring, useTransform } from 'framer-motion'
 import { DISEN_CATEGORIES, DISEN_PRODUCTS, disenImgOf, type DisenProduct } from '../data/disenProducts'
 
+const LIFT = 'bg-surface-2 shadow-[0_28px_44px_-22px_rgba(0,0,0,.95)]'
+const BATCH_SIZE = 15
+
 interface Props { onDetails: (p: DisenProduct, opener: HTMLElement) => void }
 
 export default function DisenProductsSection({ onDetails }: Props) {
   const reduced = useReducedMotion()
   type Cat = (typeof DISEN_CATEGORIES)[number]
   const [cat, setCat] = useState<Cat>('Todos')
-  const choose = (c: Cat) => setCat(c)
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE)
+
+  const choose = (c: Cat) => {
+    setCat(c)
+    setVisibleCount(BATCH_SIZE)
+  }
+
   const list = cat === 'Todos' ? DISEN_PRODUCTS : DISEN_PRODUCTS.filter((p) => p.category === cat)
+  const visibleList = list.slice(0, visibleCount)
+  const hasMore = visibleCount < list.length
+  const remaining = list.length - visibleCount
+  const progressPercent = Math.min(100, Math.round((visibleList.length / list.length) * 100))
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, list.length))
+  }
 
   const formatPrice = (n: number) => {
     if (n <= 0) return 'Cotizar'
@@ -50,25 +67,95 @@ export default function DisenProductsSection({ onDetails }: Props) {
         </div>
       </motion.div>
 
-      <p className="sr-only" role="status">
-        {list.length} {list.length === 1 ? 'producto' : 'productos'}{cat === 'Todos' ? '' : ` en ${cat}`}
+      <p className="sr-only" role="status" aria-live="polite">
+        Mostrando {visibleList.length} de {list.length} {list.length === 1 ? 'producto' : 'productos'}{cat === 'Todos' ? '' : ` en ${cat}`}
       </p>
 
+      {/* Grid de 5 columnas en escritorio como Dota */}
       <LayoutGroup>
-        <motion.ul layout={!reduced} className="mt-12 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 max-w-[1240px] mx-auto">
+        <motion.ul layout={!reduced} className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           <AnimatePresence mode="popLayout">
-            {list.map((p) => (
+            {visibleList.map((p) => (
               <DisenProductCard key={p.id} product={p} onDetails={onDetails} formatPrice={formatPrice} />
             ))}
           </AnimatePresence>
         </motion.ul>
       </LayoutGroup>
+
+      {/* Paginación progresiva / Cargar más */}
+      {list.length > BATCH_SIZE && (
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
+          <div className="flex flex-col items-center gap-2 max-w-xs w-full">
+            <span className="text-sm font-medium text-soft">
+              Mostrando <strong className="text-ink font-bold">{visibleList.length}</strong> de <strong className="text-ink font-bold">{list.length}</strong> productos
+            </span>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-2 border border-white/5">
+              <div
+                className="h-full bg-accent rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+
+          {hasMore ? (
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              className="btn btn-ghost hover:btn-accent min-h-14 px-8 font-bold text-base shadow-lg transition-all active:scale-95 group flex items-center gap-3"
+            >
+              <span>Cargar más productos</span>
+              <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-soft group-hover:bg-accent-ink/20 group-hover:text-accent-ink transition-colors font-semibold">
+                +{Math.min(BATCH_SIZE, remaining)}
+              </span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform group-hover:translate-y-0.5"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          ) : (
+            <div className="flex flex-col items-center gap-1.5 pt-2">
+              <p className="text-sm font-medium text-soft flex items-center gap-2">
+                <span className="text-accent text-base font-bold">✓</span>
+                Has visto todos los productos disponibles ({list.length})
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('productos')
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+                className="text-xs text-accent hover:underline mt-1 font-medium cursor-pointer"
+              >
+                ↑ Volver al inicio de la lista
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </section>
   )
 }
 
-/** Product card with 3D tilt, elevation, interactive spotlight, and real image support for Diseñarte */
-function DisenProductCard({ product: p, onDetails, formatPrice }: { product: DisenProduct; onDetails: (p: DisenProduct, opener: HTMLElement) => void; formatPrice: (n: number) => string }) {
+/** Product card with 3D tilt, elevation, interactive spotlight, matching Dota card proportions */
+function DisenProductCard({
+  product: p,
+  onDetails,
+  formatPrice,
+}: {
+  product: DisenProduct
+  onDetails: (p: DisenProduct, opener: HTMLElement) => void
+  formatPrice: (n: number) => string
+}) {
   const reduced = useReducedMotion() ?? false
   const el = useRef<HTMLLIElement | null>(null)
   const [on, setOn] = useState(false)
@@ -77,7 +164,7 @@ function DisenProductCard({ product: p, onDetails, formatPrice }: { product: Dis
   const ry = useSpring(0, spring)
   const lift = useSpring(0, spring)
   const y = useTransform(lift, [0, 1], [0, -10])
-  const scale = useTransform(lift, [0, 1], [1, 1.02])
+  const scale = useTransform(lift, [0, 1], [1, 1.03])
 
   const aim = (e: React.PointerEvent) => {
     const r = el.current!.getBoundingClientRect()
@@ -85,7 +172,10 @@ function DisenProductCard({ product: p, onDetails, formatPrice }: { product: Dis
     const py = (e.clientY - r.top) / r.height
     el.current!.style.setProperty('--mx', `${px * 100}%`)
     el.current!.style.setProperty('--my', `${py * 100}%`)
-    if (!reduced) { ry.set((px - 0.5) * 14); rx.set(-(py - 0.5) * 14) }
+    if (!reduced) {
+      ry.set((px - 0.5) * 16)
+      rx.set(-(py - 0.5) * 16)
+    }
   }
   const start = (e: React.PointerEvent) => { aim(e); setOn(true); if (!reduced) lift.set(1) }
   const end = () => { setOn(false); rx.set(0); ry.set(0); lift.set(0) }
@@ -96,101 +186,59 @@ function DisenProductCard({ product: p, onDetails, formatPrice }: { product: Dis
     <motion.li
       ref={el}
       layout={!reduced}
-      initial={reduced ? false : { opacity: 0, scale: 0.94 }}
+      initial={reduced ? false : { opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={reduced ? undefined : { opacity: 0, scale: 0.94 }}
+      exit={reduced ? undefined : { opacity: 0, scale: 0.92 }}
       transition={{ duration: 0.35, ease: [0.22, 0.8, 0.24, 1] }}
       onPointerEnter={(e) => e.pointerType === 'mouse' && start(e)}
-      onPointerMove={(e) => (e.pointerType === 'mouse' || on) && aim(e)}
+      onPointerMove={(e) => e.pointerType === 'mouse' && aim(e)}
       onPointerLeave={(e) => e.pointerType === 'mouse' && end()}
-      onPointerDown={(e) => e.pointerType !== 'mouse' && start(e)}
-      onPointerUp={(e) => e.pointerType !== 'mouse' && window.setTimeout(end, 220)}
-      onPointerCancel={end}
       onFocus={() => { setOn(true); if (!reduced) lift.set(1) }}
       onBlur={end}
-      style={{ transformPerspective: 1000, transformStyle: 'preserve-3d', rotateX: rx, rotateY: ry, y, scale }}
-      className={`group relative flex list-none touch-manipulation flex-col rounded-[2rem] bg-surface/90 border border-white/10 p-5 sm:p-7 ${
-        on ? 'bg-surface-2/95 border-accent/60 shadow-[0_30px_60px_-15px_rgba(232,97,140,0.2)]' : 'shadow-xl'
-      } transition-all duration-300`}
+      style={{ transformPerspective: 900, transformStyle: 'preserve-3d', rotateX: rx, rotateY: ry, y, scale }}
+      className={`group relative flex list-none touch-manipulation flex-col rounded-[var(--radius-card)] bg-surface p-3 sm:p-4 ${on ? LIFT : ''} transition-colors duration-300`}
     >
-      {/* Brillo: mancha de luz que sigue al cursor */}
+      {/* brillo: mancha plana desenfocada que sigue al puntero */}
       <span aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit] transition-opacity duration-300" style={{ opacity: on ? 1 : 0 }}>
-        <span className="absolute h-40 w-40 rounded-full bg-accent/25 blur-[45px]" style={{ left: 'var(--mx,50%)', top: 'var(--my,30%)', transform: 'translate(-50%,-50%)' }} />
+        <span className="absolute h-28 w-28 rounded-full bg-accent/30 blur-[36px]" style={{ left: 'var(--mx,50%)', top: 'var(--my,30%)', transform: 'translate(-50%,-50%)' }} />
       </span>
 
       {p.featured && (
-        <span className="absolute left-4 top-4 z-10 rounded-full bg-accent px-3.5 py-1 text-xs sm:text-sm font-bold text-accent-ink uppercase tracking-wider shadow-lg" style={{ transform: 'translateZ(60px)' }}>
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-accent px-3 py-1 text-xs sm:text-[0.95rem] font-bold text-accent-ink uppercase tracking-wide sm:left-4 sm:top-4" style={{ transform: 'translateZ(60px)' }}>
           Destacado
         </span>
       )}
 
-      {/* Imagen panorámica de alta calidad (16:10 para lucir las fotografías de categoría) */}
-      <div className="relative overflow-hidden rounded-2xl bg-surface-2 border border-white/5" style={{ transform: 'translateZ(44px)' }}>
+      {/* Imagen cuadrada proporcionada para fotos de producto */}
+      <div className="relative overflow-hidden rounded-xl bg-surface-2" style={{ transform: 'translateZ(44px)' }}>
         {img ? (
           <img
             src={img}
             alt={p.alt}
-            width={1537}
-            height={1025}
+            width={600}
+            height={600}
             loading="lazy"
             decoding="async"
             draggable={false}
-            className="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="aspect-[16/10] w-full rounded-2xl bg-surface-2 grid place-items-center overflow-hidden">
-            <div className="flex flex-col items-center gap-3 p-4">
-              <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40 transition-opacity group-hover:opacity-70">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              <span className="text-xs text-soft/60 text-center leading-tight">Imagen próximamente</span>
-            </div>
+          <div className="aspect-square w-full grid place-items-center">
+            <span className="text-xs text-soft/50">Imagen próximamente</span>
           </div>
         )}
       </div>
 
-      <div className="mt-5 flex flex-1 flex-col" style={{ transform: 'translateZ(24px)' }}>
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="font-display font-extrabold text-2xl sm:text-3xl leading-[1.05] tracking-tight uppercase text-white">
-            {p.name}
-          </h3>
-          <span className="shrink-0 text-sm sm:text-base font-bold text-accent uppercase tracking-wider">
-            {formatPrice(p.price)}
-          </span>
-        </div>
-
-        {p.description && (
-          <p className="mt-2 text-soft text-sm sm:text-base leading-relaxed line-clamp-2">
-            {p.description}
-          </p>
-        )}
-
-        {p.features && p.features.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-1.5 sm:gap-2">
-            {p.features.slice(0, 3).map((f) => (
-              <span key={f} className="inline-flex items-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs text-soft font-medium">
-                {f}
-              </span>
-            ))}
-            {p.features.length > 3 && (
-              <span className="inline-flex items-center rounded-full bg-accent/15 border border-accent/25 px-2.5 py-1 text-xs text-accent font-bold">
-                +{p.features.length - 3} más
-              </span>
-            )}
-          </div>
-        )}
-
-        <div className="mt-auto pt-6">
-          <button
-            type="button"
-            onClick={(e) => onDetails(p, e.currentTarget)}
-            className="btn btn-ghost w-full min-h-12 text-sm sm:text-base font-bold group-hover:bg-accent group-hover:text-accent-ink transition-all active:scale-[0.98]"
-          >
-            Ver detalles
-          </button>
-        </div>
+      <div className="mt-2 flex flex-1 flex-col" style={{ transform: 'translateZ(24px)' }}>
+        <h3 className="text-[1.0625rem] font-bold leading-[1.05] sm:text-[1.375rem]">{p.name}</h3>
+        <p className="mb-4 mt-2 tabular text-[1.375rem] font-semibold text-accent">{formatPrice(p.price)}</p>
+        <button
+          type="button"
+          onClick={(e) => onDetails(p, e.currentTarget)}
+          className="btn btn-ghost mt-auto w-full min-h-12 group-hover:bg-accent group-hover:text-accent-ink group-focus-within:bg-accent group-focus-within:text-accent-ink"
+        >
+          Ver detalles
+        </button>
       </div>
     </motion.li>
   )

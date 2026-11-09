@@ -167,11 +167,11 @@ export default function ContactSection() {
     reduced
       ? {}
       : {
-          initial: { opacity: 0, y: 28 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.15 },
-          transition: { duration: 0.65, delay: d, ease },
-        }
+        initial: { opacity: 0, y: 28 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.15 },
+        transition: { duration: 0.65, delay: d, ease },
+      }
 
   const advisoryUrl = getWhatsAppUrl(WHATSAPP_PHONE, ADVISORY_MSG)
 
@@ -220,7 +220,7 @@ export default function ContactSection() {
             PART 1: ¿Por qué elegirnos?
         ══════════════════════════════════════════════════════ */}
         <div className="why-header">
-          <motion.span {...enter(0)} className="why-overline">
+          <motion.span {...enter(0)} className="why-overline !text-accent">
             Tu proyecto, nuestra prioridad
           </motion.span>
           <motion.h2 {...enter(0.08)} id="why-title" className="why-heading">
@@ -252,7 +252,7 @@ export default function ContactSection() {
           {/* Left: Store Image with perfectly coupled diagonal cut & glowing golden border */}
           <div className="contact-banner-media">
             <img
-              src="/assets/products/Imagen%20de%20contacto.png"
+              src="/assets/products/Imagen%20de%20contacto%20actualizada.png"
               alt="Instalaciones y tienda física de Dota Industrial"
               width={700}
               height={450}

@@ -14,6 +14,7 @@
   --color-ink: #f4f5f7;
   --color-soft: #c3c8d0;
   --color-accent: #ffc400;
+  --color-accent-secondary: #e11d24;
   --color-accent-ink: #111214;
   --color-light-blue: #2f7bff;
   --font-display: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
@@ -120,18 +121,31 @@ p { text-wrap: pretty; }
   object-position: center 60%;
 }
 
-/* Gradiente izquierdo para legibilidad del texto */
-.hero-bg-gradient-left {
+/* Capa oscura general uniforme sobre todo el hero (misma oscuridad en izquierda y derecha) */
+.hero-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(7, 8, 10, 0.92) 0%,
-    rgba(7, 8, 10, 0.78) 25%,
-    rgba(7, 8, 10, 0.45) 50%,
-    rgba(7, 8, 10, 0.1) 70%,
-    transparent 100%
-  );
+  background: rgba(7, 8, 10, 0.75);
+  pointer-events: none;
+}
+
+/* Capa transparente uniforme para Diseñarte (calibrada con opacidad moderada para que el fondo morado tenga la misma visibilidad y claridad que Dota Industrial) */
+.disen-hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 8, 16, 0.35);
+  pointer-events: none;
+}
+
+/* Gradiente superior para fusión fluida con el header */
+.hero-bg-gradient-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, rgba(7, 8, 10, 0.85) 0%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Gradiente inferior para transición suave al carrusel / siguiente sección */
@@ -140,8 +154,9 @@ p { text-wrap: pretty; }
   left: 0;
   right: 0;
   bottom: 0;
-  height: 40%;
-  background: linear-gradient(to top, var(--color-bg) 0%, transparent 100%);
+  height: 45%;
+  background: linear-gradient(to top, var(--color-bg) 0%, rgba(7, 8, 10, 0.35) 60%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Tagline esquina superior derecha */
@@ -784,19 +799,19 @@ body.mobile-menu-open .brand-toggle-wrapper {
   background: linear-gradient(
     135deg,
     rgba(255, 196, 0, 0.5) 0%,
-    rgba(47, 123, 255, 0.4) 50%,
+    rgba(225, 29, 36, 0.45) 50%,
     rgba(255, 196, 0, 0.3) 100%
   );
   box-shadow:
     0 0 35px rgba(255, 196, 0, 0.18),
-    0 0 60px rgba(47, 123, 255, 0.14);
+    0 0 60px rgba(225, 29, 36, 0.16);
   overflow: hidden;
   transition: box-shadow 0.4s;
 }
 .visit-map-border:hover {
   box-shadow:
     0 0 50px rgba(255, 196, 0, 0.25),
-    0 0 85px rgba(47, 123, 255, 0.2);
+    0 0 85px rgba(225, 29, 36, 0.28);
 }
 
 .visit-map-iframe {
@@ -898,7 +913,7 @@ body.mobile-menu-open .brand-toggle-wrapper {
 .why-overline {
   display: inline-block;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.85rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -938,20 +953,20 @@ body.mobile-menu-open .brand-toggle-wrapper {
   background: rgba(10, 14, 22, 0.45);
   backdrop-filter: blur(12px) saturate(1.2);
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  border: 1.5px solid rgba(47, 123, 255, 0.55);
+  border: 1.5px solid rgba(225, 29, 36, 0.6);
   border-radius: 14px;
   padding: 1.6rem 1.4rem;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.35),
-    0 0 15px rgba(47, 123, 255, 0.08) inset;
+    0 0 15px rgba(225, 29, 36, 0.1) inset;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .why-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(47, 123, 255, 0.95);
+  border-color: rgba(225, 29, 36, 0.95);
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(47, 123, 255, 0.25);
+    0 0 25px rgba(225, 29, 36, 0.28);
 }
 
 .why-card-top {
@@ -991,21 +1006,21 @@ body.mobile-menu-open .brand-toggle-wrapper {
   background: rgba(10, 14, 22, 0.5);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border: 1.5px solid rgba(47, 123, 255, 0.6);
+  border: 1.5px solid rgba(225, 29, 36, 0.6);
   border-radius: 18px;
   box-shadow:
     0 16px 44px rgba(0, 0, 0, 0.45),
-    0 0 35px rgba(47, 123, 255, 0.16);
+    0 0 35px rgba(225, 29, 36, 0.18);
   display: grid;
   grid-template-columns: 1fr;
   overflow: hidden;
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 .contact-banner:hover {
-  border-color: rgba(47, 123, 255, 0.85);
+  border-color: rgba(225, 29, 36, 0.95);
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.55),
-    0 0 45px rgba(47, 123, 255, 0.24);
+    0 0 45px rgba(225, 29, 36, 0.3);
 }
 
 @media (min-width: 1024px) {
@@ -1090,7 +1105,7 @@ body.mobile-menu-open .brand-toggle-wrapper {
   display: block;
   width: 34px;
   height: 3px;
-  background: var(--color-accent);
+  background: var(--color-accent-secondary, var(--color-accent));
   border-radius: 2px;
   margin-bottom: 0.35rem;
 }

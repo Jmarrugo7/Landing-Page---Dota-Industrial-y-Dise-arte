@@ -81,7 +81,7 @@ export default function Hero({ modalOpen, onDetails }: Props) {
       {/* ─── Imagen de fondo cinematográfica ─── */}
       <div className="hero-bg" aria-hidden="true">
         <img
-          src="/assets/products/Fondo-Hero.png"
+          src="/assets/products/Fondo-Hero-actualizado.png"
           alt=""
           width={1920}
           height={720}
@@ -89,8 +89,10 @@ export default function Hero({ modalOpen, onDetails }: Props) {
           decoding="async"
           className="hero-bg-img"
         />
-        {/* Gradiente oscuro izquierdo para legibilidad del texto */}
-        <div className="hero-bg-gradient-left" />
+        {/* Capa oscura general uniforme para todo el hero */}
+        <div className="hero-bg-overlay" />
+        {/* Gradiente superior suave */}
+        <div className="hero-bg-gradient-top" />
         {/* Gradiente inferior para transición suave */}
         <div className="hero-bg-gradient-bottom" />
       </div>
@@ -101,7 +103,7 @@ export default function Hero({ modalOpen, onDetails }: Props) {
         className="hero-tagline"
         aria-hidden="true"
       >
-        <span className="hero-tagline-small">Protección y calidad</span>
+        <span className="hero-tagline-small !text-accent-secondary !opacity-100 font-extrabold tracking-wider">Protección y calidad</span>
         <span className="hero-tagline-big">para tu trabajo</span>
       </motion.div>
 

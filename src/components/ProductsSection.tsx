@@ -5,6 +5,8 @@ import ProductCard from './ProductCard'
 
 interface Props { onDetails: (p: Product, opener: HTMLElement) => void }
 
+const BATCH_SIZE = 12
+
 export default function ProductsSection({ onDetails }: Props) {
   const reduced = useReducedMotion()
   type Cat = (typeof CATEGORIES)[number]
@@ -12,14 +14,26 @@ export default function ProductsSection({ onDetails }: Props) {
     const q = new URLSearchParams(window.location.search).get('categoria')
     return (CATEGORIES.find((c) => c.toLowerCase() === q?.toLowerCase()) as Cat | undefined) ?? 'Todos'
   })
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE)
+
   const choose = (c: Cat) => {
     setCat(c)
+    setVisibleCount(BATCH_SIZE)
     const url = new URL(window.location.href)
     if (c === 'Todos') url.searchParams.delete('categoria')
     else url.searchParams.set('categoria', c.toLowerCase())
     history.replaceState(null, '', url)
   }
+
   const list = cat === 'Todos' ? PRODUCTS : PRODUCTS.filter((p) => p.category === cat)
+  const visibleList = list.slice(0, visibleCount)
+  const hasMore = visibleCount < list.length
+  const remaining = list.length - visibleCount
+  const progressPercent = Math.min(100, Math.round((visibleList.length / list.length) * 100))
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, list.length))
+  }
 
   return (
     <section id="productos" aria-labelledby="productos-titulo" className="page-x pb-16 pt-24 lg:pb-20 lg:pt-36">
@@ -54,19 +68,82 @@ export default function ProductsSection({ onDetails }: Props) {
         </div>
       </motion.div>
 
-      <p className="sr-only" role="status">
-        {list.length} {list.length === 1 ? 'producto' : 'productos'}{cat === 'Todos' ? '' : ` en ${cat}`}
+      <p className="sr-only" role="status" aria-live="polite">
+        Mostrando {visibleList.length} de {list.length} {list.length === 1 ? 'producto' : 'productos'}{cat === 'Todos' ? '' : ` en ${cat}`}
       </p>
 
       <LayoutGroup>
         <motion.ul layout={!reduced} className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           <AnimatePresence mode="popLayout">
-            {list.map((p) => (
+            {visibleList.map((p) => (
               <ProductCard key={p.id} product={p} onDetails={onDetails} />
             ))}
           </AnimatePresence>
         </motion.ul>
       </LayoutGroup>
+
+      {/* ─── Paginación progresiva / Cargar más ─── */}
+      {list.length > BATCH_SIZE && (
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
+          {/* Contador y barra de progreso */}
+          <div className="flex flex-col items-center gap-2 max-w-xs w-full">
+            <span className="text-sm font-medium text-soft">
+              Mostrando <strong className="text-ink font-bold">{visibleList.length}</strong> de <strong className="text-ink font-bold">{list.length}</strong> productos
+            </span>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-2 border border-white/5">
+              <div
+                className="h-full bg-accent rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Botón Cargar Más */}
+          {hasMore ? (
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              className="btn btn-ghost hover:btn-accent min-h-14 px-8 font-bold text-base shadow-lg transition-all active:scale-95 group flex items-center gap-3"
+            >
+              <span>Cargar más productos</span>
+              <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-soft group-hover:bg-accent-ink/20 group-hover:text-accent-ink transition-colors font-semibold">
+                +{Math.min(BATCH_SIZE, remaining)}
+              </span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform group-hover:translate-y-0.5"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          ) : (
+            <div className="flex flex-col items-center gap-1.5 pt-2">
+              <p className="text-sm font-medium text-soft flex items-center gap-2">
+                <span className="text-accent text-base font-bold">✓</span>
+                Has visto todos los productos disponibles ({list.length})
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('productos')
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+                className="text-xs text-accent hover:underline mt-1 font-medium cursor-pointer"
+              >
+                ↑ Volver al inicio de la lista
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </section>
   )
 }

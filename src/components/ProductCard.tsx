@@ -43,11 +43,8 @@ export default function ProductCard({ product: p, onDetails, ref }: Props) {
       exit={reduced ? undefined : { opacity: 0, scale: 0.92 }}
       transition={{ duration: 0.35, ease: [0.22, 0.8, 0.24, 1] }}
       onPointerEnter={(e) => e.pointerType === 'mouse' && start(e)}
-      onPointerMove={(e) => (e.pointerType === 'mouse' || on) && aim(e)}
+      onPointerMove={(e) => e.pointerType === 'mouse' && aim(e)}
       onPointerLeave={(e) => e.pointerType === 'mouse' && end()}
-      onPointerDown={(e) => e.pointerType !== 'mouse' && start(e)}
-      onPointerUp={(e) => e.pointerType !== 'mouse' && window.setTimeout(end, 220)}
-      onPointerCancel={end}
       onFocus={() => { setOn(true); if (!reduced) lift.set(1) }}
       onBlur={end}
       style={{ transformPerspective: 900, transformStyle: 'preserve-3d', rotateX: rx, rotateY: ry, y, scale }}
@@ -58,7 +55,7 @@ export default function ProductCard({ product: p, onDetails, ref }: Props) {
         <span className="absolute h-28 w-28 rounded-full bg-accent/30 blur-[36px]" style={{ left: 'var(--mx,50%)', top: 'var(--my,30%)', transform: 'translate(-50%,-50%)' }} />
       </span>
       {p.featured && (
-        <span className="absolute left-3 top-3 z-10 rounded-full bg-accent px-3 py-1 text-[1.0625rem] font-semibold text-accent-ink sm:left-4 sm:top-4" style={{ transform: 'translateZ(60px)' }}>
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-accent-secondary px-3.5 py-1 text-[0.95rem] font-bold tracking-wide text-white shadow-md shadow-red-950/50 sm:left-4 sm:top-4" style={{ transform: 'translateZ(60px)' }}>
           Destacado
         </span>
       )}

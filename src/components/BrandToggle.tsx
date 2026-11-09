@@ -18,7 +18,7 @@ export default function BrandToggle() {
           type="button"
           onClick={() => isDisen && toggle()}
           className={`brand-toggle-label ${!isDisen ? 'brand-toggle-label--active' : ''}`}
-          style={{ '--label-color': !isDisen ? '#ffc400' : undefined } as React.CSSProperties}
+          style={{ '--label-color': !isDisen ? 'var(--color-accent)' : undefined } as React.CSSProperties}
         >
           <span className="brand-toggle-icon brand-toggle-icon--dota">
             <img

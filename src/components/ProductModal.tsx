@@ -4,8 +4,6 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { formatPrice, imgOf, type Product } from '../data/products'
 import { useWebGL } from '../hooks/useWebGL'
 import { ErrorBoundary } from './ErrorBoundary'
-import { BRANDS, getWhatsAppUrl } from '../data/brands'
-import { WhatsAppIcon } from './WhatsAppIcon'
 
 const ModelViewer = lazy(() => import('../three/ModelViewer'))
 
@@ -25,11 +23,6 @@ export default function ProductModal({ product: p, onClose }: Props) {
   const has3d = !!p.model // solo los productos con modelo 3D muestran «Vista 3D»
   const [view, setView] = useState<'3d' | 'img'>(has3d ? '3d' : 'img')
   const [viewerFailed, setViewerFailed] = useState(false)
-
-  const quoteUrl = getWhatsAppUrl(
-    BRANDS.dota.whatsappPhone,
-    `¡Hola Dota Industrial! Me interesa el producto "${p.name}". Quisiera más información y cotización.`,
-  )
 
   useEffect(() => {
     closeBtn.current?.focus()
@@ -115,17 +108,8 @@ export default function ProductModal({ product: p, onClose }: Props) {
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-8 flex flex-col sm:flex-row gap-3">
-            <a
-              href={quoteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-accent min-h-14 flex-1 gap-2.5 text-base font-bold shadow-[0_4px_18px_rgba(255,196,0,0.32)]"
-            >
-              <WhatsAppIcon className="h-5 w-5 fill-current" />
-              <span>Cotizar por WhatsApp</span>
-            </a>
-            <button type="button" onClick={onClose} className="btn btn-ghost min-h-14 px-8 text-base font-semibold">
+          <div className="mt-auto pt-8">
+            <button type="button" onClick={onClose} className="btn btn-accent min-h-14 w-full px-7">
               Cerrar
             </button>
           </div>

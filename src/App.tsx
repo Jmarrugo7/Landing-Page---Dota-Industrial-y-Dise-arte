@@ -132,6 +132,7 @@ function AppContent() {
     const root = document.documentElement
     const colors = brand.colors
     root.style.setProperty('--color-accent', colors.accent)
+    root.style.setProperty('--color-accent-secondary', colors.accentSecondary)
     root.style.setProperty('--color-accent-ink', colors.accentInk)
     root.style.setProperty('--color-bg', colors.bg)
     root.style.setProperty('--color-surface', colors.surface)

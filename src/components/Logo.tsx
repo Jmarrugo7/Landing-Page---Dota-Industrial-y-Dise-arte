@@ -56,7 +56,7 @@ export function Logo() {
         className="h-11 w-11 sm:h-13 sm:w-13 object-contain drop-shadow-[0_4px_12px_rgba(255,196,0,0.3)] transition-transform duration-300 group-hover:scale-105"
       />
       <span className="flex flex-col font-display font-extrabold uppercase leading-[.86]">
-        <span className="text-[1.0625rem] tracking-[0.04em] text-ink">Dota</span>
+        <span className="text-[1.0625rem] tracking-[0.04em] text-accent-secondary font-black">Dota</span>
         <span className="text-[1.375rem] text-accent sm:text-[2rem]">Industrial</span>
       </span>
     </a>
