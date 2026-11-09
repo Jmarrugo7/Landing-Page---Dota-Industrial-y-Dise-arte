@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { formatPrice, imgOf, type Product } from '../data/products'
+import { BRANDS, getWhatsAppUrl } from '../data/brands'
+import { WhatsAppIcon } from './WhatsAppIcon'
 import { useWebGL } from '../hooks/useWebGL'
 import { ErrorBoundary } from './ErrorBoundary'
 
@@ -108,8 +110,20 @@ export default function ProductModal({ product: p, onClose }: Props) {
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-8">
-            <button type="button" onClick={onClose} className="btn btn-accent min-h-14 w-full px-7">
+          <div className="mt-auto pt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <a
+              href={getWhatsAppUrl(
+                BRANDS.dota.whatsappPhone,
+                `¡Hola! Me comunico desde la página web de Dota Industrial. Estoy interesado en el producto: *${p.name}*. ¿Podrían darme más información y precio?`
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-whatsapp min-h-14 flex-1 px-7 gap-2.5"
+            >
+              <WhatsAppIcon className="h-5 w-5 fill-current" />
+              <span>Consultar por WhatsApp</span>
+            </a>
+            <button type="button" onClick={onClose} className="btn btn-ghost min-h-14 flex-1 px-7">
               Cerrar
             </button>
           </div>

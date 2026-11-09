@@ -52,14 +52,18 @@ export default function ProductsSection({ onDetails }: Props) {
           <p className="text-[1.1875rem] leading-snug text-ink">
             Explora nuestra selección de productos, diseñados para ofrecerte calidad, resistencia y el mejor rendimiento.
           </p>
-          <div role="group" aria-label="Filtrar por categoría" className="flex flex-wrap gap-2 lg:justify-end">
+          <div
+            role="group"
+            aria-label="Filtrar por categoría"
+            className="flex gap-2 lg:flex-wrap lg:justify-end overflow-x-auto max-lg:pb-2 max-lg:-mx-[max(var(--margin-page),env(safe-area-inset-left))] max-lg:px-[max(var(--margin-page),env(safe-area-inset-left))] scrollbar-hide snap-x snap-mandatory"
+          >
             {CATEGORIES.map((c) => (
               <button
                 key={c}
                 type="button"
                 aria-pressed={cat === c}
                 onClick={() => choose(c)}
-                className={`btn min-h-12 px-5 ${cat === c ? 'btn-accent' : 'btn-ghost'}`}
+                className={`btn min-h-12 px-5 whitespace-nowrap snap-start shrink-0 ${cat === c ? 'btn-accent' : 'btn-ghost'}`}
               >
                 {c}
               </button>

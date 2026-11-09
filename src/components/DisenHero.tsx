@@ -50,9 +50,9 @@ export default function DisenHero({ modalOpen, onDetails }: Props) {
   const ProductPlaceholder = ({ item }: { item: DisenProduct }) => (
     <div className="disen-product-placeholder">
       <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-        <rect width="80" height="80" rx="16" fill="rgba(232,97,140,0.12)" />
-        <path d="M40 22c-4 0-7.5 2-9.5 5.5C28.5 31 28 35 30 38.5l10 17 10-17c2-3.5 1.5-7.5-.5-11S44 22 40 22z" fill="rgba(232,97,140,0.3)" stroke="rgba(232,97,140,0.6)" strokeWidth="1.5" />
-        <circle cx="40" cy="34" r="4" fill="rgba(232,97,140,0.5)" />
+        <rect width="80" height="80" rx="16" fill="rgba(212,175,55,0.12)" />
+        <path d="M40 22c-4 0-7.5 2-9.5 5.5C28.5 31 28 35 30 38.5l10 17 10-17c2-3.5 1.5-7.5-.5-11S44 22 40 22z" fill="rgba(212,175,55,0.3)" stroke="rgba(212,175,55,0.6)" strokeWidth="1.5" />
+        <circle cx="40" cy="34" r="4" fill="rgba(212,175,55,0.5)" />
       </svg>
       <span className="disen-placeholder-name">{item.name}</span>
     </div>
@@ -232,7 +232,7 @@ function DisenCoverflow({ items, active, onSelect }: { items: DisenProduct[]; ac
                   onClick={() => { if (!swiped.current) onSelect(i) }}
                   className={`cf-tile absolute left-1/2 top-0 grid place-items-center rounded-2xl p-2 outline-offset-4 backdrop-blur-md ${
                     isActive
-                      ? 'bg-surface-3/90 outline outline-[3px] outline-accent shadow-[0_0_24px_rgba(232,97,140,0.3)]'
+                      ? 'bg-surface-3/90 outline outline-[3px] outline-accent shadow-[0_0_24px_rgba(212,175,55,0.3)]'
                       : 'bg-surface-2/75 border border-white/5'
                   }`}
                   style={{

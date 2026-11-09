@@ -36,7 +36,7 @@ export function Logo() {
           alt="Logo Diseñarte"
           width={56}
           height={56}
-          className="h-11 w-11 sm:h-13 sm:w-13 rounded-full object-contain drop-shadow-[0_4px_12px_rgba(232,97,140,0.35)] transition-transform duration-300 group-hover:scale-105"
+          className="h-11 w-11 sm:h-13 sm:w-13 rounded-full object-contain drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)] transition-transform duration-300 group-hover:scale-105"
         />
         <span className="flex flex-col font-display font-extrabold uppercase leading-[.86]">
           <span className="text-[1.375rem] text-accent sm:text-[2rem]">Diseñarte</span>

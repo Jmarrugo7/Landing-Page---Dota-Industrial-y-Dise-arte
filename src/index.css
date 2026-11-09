@@ -61,6 +61,10 @@ h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 .tabular { font-variant-numeric: tabular-nums; }
 
+/* Ocultar scrollbar manteniendo scroll funcional */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 /* Botones: una sola forma (píldora) en toda la página */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
@@ -425,8 +429,8 @@ body.mobile-menu-open .brand-toggle-wrapper {
   box-shadow: 0 0 12px rgba(255, 196, 0, 0.35), inset 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 .brand-toggle-track[data-brand="disenarte"] {
-  background: linear-gradient(135deg, #e8618c, #d14a75);
-  box-shadow: 0 0 12px rgba(232, 97, 140, 0.35), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #D4AF37, #d14a75);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35), inset 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .brand-toggle-thumb {
@@ -469,9 +473,9 @@ body.mobile-menu-open .brand-toggle-wrapper {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(232, 97, 140, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 90% 90%, rgba(232, 97, 140, 0.06) 0%, transparent 40%);
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 90% 90%, rgba(212, 175, 55, 0.06) 0%, transparent 40%);
 }
 
 .disen-hero-bg-gradient {
@@ -511,7 +515,7 @@ body.mobile-menu-open .brand-toggle-wrapper {
 .disen-thread {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid rgba(232, 97, 140, 0.15);
+  border: 2px solid rgba(212, 175, 55, 0.15);
 }
 .disen-thread--1 {
   width: 120px;
@@ -525,7 +529,7 @@ body.mobile-menu-open .brand-toggle-wrapper {
   height: 80px;
   bottom: 30%;
   right: 20%;
-  border-color: rgba(168, 85, 247, 0.12);
+  border-color: rgba(124, 58, 237, 0.12);
   animation: disen-float 9s ease-in-out infinite reverse;
 }
 .disen-thread--3 {
@@ -533,7 +537,7 @@ body.mobile-menu-open .brand-toggle-wrapper {
   height: 60px;
   top: 40%;
   left: 15%;
-  border-color: rgba(232, 97, 140, 0.1);
+  border-color: rgba(212, 175, 55, 0.1);
   animation: disen-float 14s ease-in-out infinite;
 }
 

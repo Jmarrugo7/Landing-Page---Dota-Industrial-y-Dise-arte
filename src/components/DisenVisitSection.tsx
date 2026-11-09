@@ -50,7 +50,7 @@ export default function DisenVisitSection() {
       <div className="page-x visit-container relative z-10 max-w-[1240px] mx-auto">
         <motion.div
           {...enter(0)}
-          className="disen-visit-card rounded-[28px] border border-[#e8618c]/45 bg-[#120a1a]/85 backdrop-blur-xl p-6 sm:p-8 lg:p-12 shadow-[0_24px_60px_rgba(0,0,0,0.6),0_0_35px_rgba(232,97,140,0.12)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch"
+          className="disen-visit-card rounded-[28px] border border-[#D4AF37]/45 bg-[#120828]/85 backdrop-blur-xl p-6 sm:p-8 lg:p-12 shadow-[0_24px_60px_rgba(0,0,0,0.6),0_0_35px_rgba(212,175,55,0.12)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch"
         >
           {/* ═════════════════════════════════════════════════════
               LEFT COLUMN: Information & CTAs (7 cols on lg)
@@ -58,7 +58,7 @@ export default function DisenVisitSection() {
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
               {/* Overline & Heading */}
-              <motion.span {...enter(0.05)} className="inline-block text-[#e8618c] font-display font-extrabold text-xs sm:text-sm tracking-[0.2em] uppercase">
+              <motion.span {...enter(0.05)} className="inline-block text-[#D4AF37] font-display font-extrabold text-xs sm:text-sm tracking-[0.2em] uppercase">
                 Ven a conocernos
               </motion.span>
               <motion.h2
@@ -67,14 +67,14 @@ export default function DisenVisitSection() {
                 className="font-display font-black text-3xl sm:text-4xl lg:text-[2.75rem] uppercase leading-[0.98] tracking-tight mt-3 mb-10 sm:mb-12 lg:mb-14"
               >
                 <span className="block text-white">TE ESPERAMOS</span>
-                <span className="block text-[#e8618c] mt-0.5">PUNTO A PUNTO</span>
+                <span className="block text-[#D4AF37] mt-0.5">PUNTO A PUNTO</span>
               </motion.h2>
 
               {/* Rows */}
               <div className="flex flex-col gap-6">
                 {/* 1. Dirección */}
                 <motion.div {...enter(0.18)} className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8618c]/15 border border-[#e8618c]/30 text-[#e8618c]">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 text-[#D4AF37]">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
                       <circle cx="12" cy="9" r="2.5" />
@@ -82,17 +82,17 @@ export default function DisenVisitSection() {
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-white leading-tight">Dirección</h3>
-                    <p className="text-sm text-[#c8bdd4] mt-1 leading-relaxed">
+                    <p className="text-sm text-[#B8A0D4] mt-1 leading-relaxed">
                       20 de Julio, Cartagena de Indias, Bolívar
                     </p>
                   </div>
                 </motion.div>
 
-                <div className="h-px w-full bg-[rgba(232,97,140,0.18)]" />
+                <div className="h-px w-full bg-[rgba(212,175,55,0.18)]" />
 
                 {/* 2. Horario de atención */}
                 <motion.div {...enter(0.24)} className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8618c]/15 border border-[#e8618c]/30 text-[#e8618c]">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 text-[#D4AF37]">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <circle cx="12" cy="12" r="9" />
                       <polyline points="12 7 12 12 15 15" />
@@ -101,34 +101,34 @@ export default function DisenVisitSection() {
                   <div className="flex-1">
                     <h3 className="text-base font-bold text-white leading-tight">Horario de atención</h3>
                     <div className="mt-2 space-y-1.5 text-sm">
-                      <div className="flex items-center justify-between gap-4 text-[#c8bdd4]">
+                      <div className="flex items-center justify-between gap-4 text-[#B8A0D4]">
                         <span>Lunes a viernes</span>
                         <span className="font-medium text-white/95">8:00 a. m. – 5:00 p. m.</span>
                       </div>
-                      <div className="flex items-center justify-between gap-4 text-[#c8bdd4]">
+                      <div className="flex items-center justify-between gap-4 text-[#B8A0D4]">
                         <span>Sábados</span>
                         <span className="font-medium text-white/95">8:00 a. m. – 3:00 p. m.</span>
                       </div>
-                      <div className="flex items-center justify-between gap-4 text-[#c8bdd4]">
+                      <div className="flex items-center justify-between gap-4 text-[#B8A0D4]">
                         <span>Domingos</span>
-                        <span className="font-semibold text-[#e8618c]">Cerrado</span>
+                        <span className="font-semibold text-[#D4AF37]">Cerrado</span>
                       </div>
                     </div>
                   </div>
                 </motion.div>
 
-                <div className="h-px w-full bg-[rgba(232,97,140,0.18)]" />
+                <div className="h-px w-full bg-[rgba(212,175,55,0.18)]" />
 
                 {/* 3. Contáctanos */}
                 <motion.div {...enter(0.3)} className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8618c]/15 border border-[#e8618c]/30 text-[#e8618c]">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 text-[#D4AF37]">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-white leading-tight">Contáctanos</h3>
-                    <a href="tel:+573245516942" className="inline-block text-sm text-[#c8bdd4] hover:text-[#e8618c] transition-colors mt-1 font-medium">
+                    <a href="tel:+573245516942" className="inline-block text-sm text-[#B8A0D4] hover:text-[#D4AF37] transition-colors mt-1 font-medium">
                       324 551 6942
                     </a>
                   </div>
@@ -143,7 +143,7 @@ export default function DisenVisitSection() {
                 href={GOOGLE_MAPS_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#e8618c] hover:bg-[#d84d7a] text-white px-6 py-3 text-sm font-bold shadow-[0_4px_20px_rgba(232,97,140,0.45)] transition-all duration-200 hover:scale-[1.03] active:scale-95"
+                className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#D4AF37] hover:bg-[#C49B2F] text-[#1A0A2E] px-6 py-3 text-sm font-bold shadow-[0_4px_20px_rgba(212,175,55,0.45)] transition-all duration-200 hover:scale-[1.03] active:scale-95"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
@@ -159,7 +159,7 @@ export default function DisenVisitSection() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#120a1a]/85 hover:bg-[#1a0f26] border border-white/20 hover:border-[#25D366]/60 text-white px-5 py-3 text-sm font-semibold shadow-md transition-all duration-200 hover:scale-[1.03] active:scale-95"
+                className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#120828]/85 hover:bg-[#1a0f26] border border-white/20 hover:border-[#25D366]/60 text-white px-5 py-3 text-sm font-semibold shadow-md transition-all duration-200 hover:scale-[1.03] active:scale-95"
               >
                 <span className="flex h-5 w-5 items-center justify-center text-[#25D366]">
                   <WhatsAppIcon className="h-5 w-5 fill-current" />
@@ -173,10 +173,10 @@ export default function DisenVisitSection() {
               RIGHT COLUMN: Styled Map (5 cols on lg)
           ══════════════════════════════════════════════════════ */}
           <motion.div {...enter(0.22)} className="lg:col-span-5 flex items-stretch">
-            <div className="relative w-full h-[360px] sm:h-[420px] lg:h-full min-h-[380px] rounded-2xl overflow-hidden border-2 border-[#e8618c]/55 shadow-[0_0_30px_rgba(232,97,140,0.22)]">
+            <div className="relative w-full h-[360px] sm:h-[420px] lg:h-full min-h-[380px] rounded-2xl overflow-hidden border-2 border-[#D4AF37]/55 shadow-[0_0_30px_rgba(212,175,55,0.22)]">
               {/* Top-left: Encuéntranos aquí badge */}
-              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-lg bg-[#120b19]/90 border border-[#e8618c]/40 px-3 py-1.5 shadow-md backdrop-blur-md">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#e8618c" aria-hidden="true">
+              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-lg bg-[#120828]/90 border border-[#D4AF37]/40 px-3 py-1.5 shadow-md backdrop-blur-md">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#D4AF37" aria-hidden="true">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
                 </svg>
                 <span className="font-display font-bold text-[0.7rem] tracking-[0.14em] uppercase text-white">
@@ -190,8 +190,8 @@ export default function DisenVisitSection() {
                   width="38"
                   height="38"
                   viewBox="0 0 24 24"
-                  fill="#e8618c"
-                  className="drop-shadow-[0_4px_16px_rgba(232,97,140,0.9)]"
+                  fill="#D4AF37"
+                  className="drop-shadow-[0_4px_16px_rgba(212,175,55,0.9)]"
                   aria-hidden="true"
                 >
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
@@ -200,7 +200,7 @@ export default function DisenVisitSection() {
               </div>
 
               {/* Bottom-right: Diseñarte badge */}
-              <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2.5 rounded-xl bg-[#120b19]/92 border border-[#e8618c]/40 px-3.5 py-1.5 shadow-xl backdrop-blur-md">
+              <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2.5 rounded-xl bg-[#120828]/92 border border-[#D4AF37]/40 px-3.5 py-1.5 shadow-xl backdrop-blur-md">
                 <img
                   src="/assets/products/Logo%20diseñarte.png"
                   alt=""
@@ -212,7 +212,7 @@ export default function DisenVisitSection() {
                   <span className="font-display font-extrabold text-[0.75rem] uppercase tracking-wider text-white leading-tight">
                     Diseñarte
                   </span>
-                  <span className="text-[0.625rem] text-[#c8bdd4] leading-tight">
+                  <span className="text-[0.625rem] text-[#B8A0D4] leading-tight">
                     Bordado y estampado
                   </span>
                 </div>
