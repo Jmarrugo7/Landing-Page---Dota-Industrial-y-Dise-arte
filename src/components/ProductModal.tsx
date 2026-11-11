@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { formatPrice, imgOf, type Product } from '../data/products'
 import { BRANDS, getWhatsAppUrl } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
+import { useWhatsAppModal } from '../context/WhatsAppModalContext'
 import { useWebGL } from '../hooks/useWebGL'
 import { ErrorBoundary } from './ErrorBoundary'
 
@@ -18,6 +19,7 @@ const FOCUSABLE = 'a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"]
 export default function ProductModal({ product: p, onClose }: Props) {
   const reduced = useReducedMotion() ?? false
   const webgl = useWebGL()
+  const { openWhatsAppModal } = useWhatsAppModal()
   const titleId = useId()
   const descId = useId()
   const dialog = useRef<HTMLDivElement>(null)
@@ -118,6 +120,10 @@ export default function ProductModal({ product: p, onClose }: Props) {
               )}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault()
+                openWhatsAppModal(`¡Hola! Me comunico desde la página web de Dota Industrial. Estoy interesado en el producto: *${p.name}*. ¿Podrían darme más información y precio?`)
+              }}
               className="btn btn-whatsapp min-h-14 flex-1 px-7 gap-2.5"
             >
               <WhatsAppIcon className="h-5 w-5 fill-current" />

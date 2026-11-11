@@ -80,7 +80,7 @@ export const PRODUCTS: Product[] = [
     features: ['Hoja de acero de punta redonda', 'Mango de madera con empuñadura en D', 'Para obra, huerta y jardín'], alt: 'Pala redonda de acero con mango de madera sobre el piso',
   },
   {
-    id: 'ventosa-doble', name: 'Ventosa Doble para Manipulación de Vidrio', price: 0, category: 'Herramientas',
+    id: 'ventosa-doble', name: 'Ventosa Doble para Manipulación de Vidrio', price: 0, category: 'Herramientas', inCarousel: true,
     description: 'Ventosa de succión doble para levantar y mover vidrio, cerámica y láminas lisas con agarre firme.',
     features: ['Doble copa de succión', 'Mango para un agarre cómodo', 'Para vidrio, baldosas y superficies lisas'], alt: 'Ventosa doble amarilla para cargar vidrio',
   },
@@ -97,7 +97,7 @@ export const PRODUCTS: Product[] = [
 
   // ───────── Soldadura ─────────
   {
-    id: 'careta-soldadura-decorada', name: 'Careta para Soldadura Decorada', price: 0, category: 'Soldadura', inCarousel: true,
+    id: 'careta-soldadura-decorada', name: 'Careta para Soldadura Decorada', price: 0, category: 'Soldadura',
     description: 'La misma protección de una careta profesional, con diseño llamativo para soldadores con estilo.',
     features: ['Diseño gráfico decorado', 'Filtro protector incluido', 'Banda ajustable'], alt: 'Careta de soldadura con diseño gráfico de colores',
   },
@@ -112,12 +112,12 @@ export const PRODUCTS: Product[] = [
     features: ['Carnaza resistente al calor y a las chispas', 'Manga larga', 'Protege torso y brazos'], alt: 'Hombre con chaqueta amarilla de carnaza para soldador',
   },
   {
-    id: 'kit-soldadura-profesional', name: 'Kit Profesional para Soldadura y Oxicorte', price: 0, category: 'Soldadura',
+    id: 'kit-soldadura-profesional', name: 'Kit Profesional para Soldadura y Oxicorte', price: 0, category: 'Soldadura', inCarousel: true,
     description: 'Equipo en maletín para soldar y cortar con oxicorte, listo para llevar a obra o taller.',
     features: ['Maletín rígido de transporte', 'Reguladores con manómetros y mangueras', 'Para soldadura y oxicorte'], alt: 'Maletín abierto con kit de soldadura y oxicorte, manómetros y mangueras',
   },
   {
-    id: 'kit-soldadura-completo', name: 'Kit Completo para Soldadura y Oxicorte', price: 0, category: 'Soldadura',
+    id: 'kit-soldadura-completo', name: 'Kit Completo para Soldadura y Oxicorte', price: 0, category: 'Soldadura', inCarousel: true,
     description: 'Kit ampliado que suma accesorios y elementos de protección para el soldador.',
     features: ['Equipo de soldadura y oxicorte', 'Accesorios de protección incluidos', 'Todo en un solo kit'], alt: 'Caretas de soldadura, guantes y accesorios de protección del kit completo',
   },
@@ -191,7 +191,7 @@ export const PRODUCTS: Product[] = [
 
   // ───────── Dotación ─────────
   {
-    id: 'polo-alta-visibilidad', name: 'Polo Industrial de Alta Visibilidad', price: 0, category: 'Dotación', inCarousel: true,
+    id: 'polo-alta-visibilidad', name: 'Polo Industrial de Alta Visibilidad', price: 0, category: 'Dotación',
     description: 'Polo de color vivo para que el trabajador sea visto fácilmente en obra, vías y zonas de operación.',
     features: ['Color naranja de alta visibilidad', 'Cuello tipo polo', 'Para obra, cuadrillas y trabajo en vía'], alt: 'Mujer con polo industrial naranja de alta visibilidad y casco',
   },
@@ -273,12 +273,12 @@ export const PRODUCTS: Product[] = [
     features: ['Rombo naranja de alta visibilidad', 'Atril de soporte incluido', 'Para obras y trabajos en vía'], alt: 'Señal vial naranja en forma de rombo con símbolo de maquinaria y atril',
   },
   {
-    id: 'tambor-vial', name: 'Tambor Vial Reflectivo', price: 0, category: 'Vial y emergencia',
+    id: 'tambor-vial', name: 'Tambor Vial Reflectivo', price: 0, category: 'Vial y emergencia', inCarousel: true,
     description: 'Tambor naranja y blanco con bandas reflectivas para delimitar zonas de obra y canalizar el tránsito.',
     features: ['Bandas reflectivas', 'Cuerpo plástico resistente', 'Para canalizar tránsito y demarcar obras'], alt: 'Tambor vial plástico naranja y blanco con bandas reflectivas',
   },
   {
-    id: 'conos-viales', name: 'Conos Viales', price: 0, category: 'Vial y emergencia',
+    id: 'conos-viales', name: 'Conos Viales', price: 0, category: 'Vial y emergencia', inCarousel: true,
     description: 'Conos de tráfico con banda reflectiva para demarcar áreas de trabajo, parqueaderos y vías.',
     features: ['Banda reflectiva', 'Base estable', 'Varios colores disponibles'], alt: 'Cono vial naranja con bandas reflectivas blancas',
   },
@@ -636,7 +636,7 @@ export const PRODUCTS: Product[] = [
     features: ['Tela Oxford', 'Manga larga, hasta talla 4XL', 'Color azul claro'], alt: 'Hombre con bata azul clara de tela Oxford',
   },
   {
-    id: 'camisa-reflectivo', name: 'Camisa Industrial con Reflectivo', price: 0, category: 'Dotación',
+    id: 'camisa-reflectivo', name: 'Camisa Industrial con Reflectivo', price: 0, category: 'Dotación', inCarousel: true,
     description: 'Camisa de dotación con cintas reflectivas y bolsillos, en color beige con detalles azul oscuro.',
     features: ['Cintas reflectivas', 'Dos bolsillos frontales con tapa', 'Beige con detalles azul oscuro'], alt: 'Camisa industrial beige y azul oscuro con cintas reflectivas',
   },
@@ -750,7 +750,7 @@ export const PRODUCTS: Product[] = [
     features: ['Morral de lona de 37 x 30 x 7 cm con tira reflectiva', 'Vendas, gasas, alcohol, yodopovidona y guantes', 'Incluye termómetro digital'], alt: 'Morral rojo de botiquín tipo A con su contenido',
   },
   {
-    id: 'botiquin-tipo-b', name: 'Botiquín Tipo B (Bolso Ambulancia)', price: 0, category: 'Salud y primeros auxilios',
+    id: 'botiquin-tipo-b', name: 'Botiquín Tipo B (Bolso Ambulancia)', price: 0, category: 'Salud y primeros auxilios', inCarousel: true,
     description: 'Botiquín completo en bolso ambulancia para empresas, obras y brigadas.',
     features: ['Bolso de lona de 53 x 33 x 30 cm', 'Collares, kits de férula, tijeras de trauma y linterna', 'Incluye tensiómetro y fonendoscopio'], alt: 'Bolso rojo de botiquín tipo B con su contenido',
   },
@@ -767,7 +767,7 @@ export const PRODUCTS: Product[] = [
 
   // ───────── Alturas e izaje (actualización V2/V3) ─────────
   {
-    id: 'arnes-silla', name: 'Arnés con Silla para Trabajo en Alturas', price: 0, category: 'Alturas e izaje',
+    id: 'arnes-silla', name: 'Arnés con Silla para Trabajo en Alturas', price: 0, category: 'Alturas e izaje', inCarousel: true,
     description: 'Arnés con asiento acolchado para trabajar suspendido con más comodidad.',
     features: ['Argollas en D de acero', 'Costuras reforzadas y hebillas de acero', 'Asiento con lámina de polipropileno y espuma'], alt: 'Arnés con silla y asiento acolchado para trabajo en alturas',
   },
@@ -819,7 +819,7 @@ export const PRODUCTS: Product[] = [
     features: ['Llave dispensadora', 'Aislamiento térmico', 'Colores rojo y azul'], alt: 'Termos dispensadores de agua tipo cooler azules apilados',
   },
   {
-    id: 'bidon-combustible', name: 'Bidón de Combustible 20 L', price: 0, category: 'Aseo y almacenamiento',
+    id: 'bidon-combustible', name: 'Bidón de Combustible 20 L', price: 0, category: 'Aseo y almacenamiento', inCarousel: true,
     description: 'Bidón plástico amarillo de 5,3 galones con pico vertedor para almacenar y trasvasar combustible.',
     features: ['Capacidad de 20 litros (5,3 galones)', 'Pico vertedor flexible', 'Plástico resistente para diésel'], alt: 'Bidón de combustible amarillo de 20 litros con pico vertedor',
   },

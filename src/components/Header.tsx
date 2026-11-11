@@ -4,6 +4,7 @@ import { Logo } from './Logo'
 import { useBrand } from '../hooks/useBrand'
 import { getWhatsAppUrl } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
+import { useWhatsAppModal } from '../context/WhatsAppModalContext'
 
 interface Props {
   active: 'inicio' | 'productos' | 'contacto' | 'visitanos'
@@ -13,6 +14,7 @@ interface Props {
 export default function Header({ active, onSelect }: Props) {
   const reduced = useReducedMotion()
   const { brandId, brand, toggle } = useBrand()
+  const { openWhatsAppModal } = useWhatsAppModal()
   const whatsappUrl = getWhatsAppUrl(brand.whatsappPhone, brand.whatsappMessage)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -124,6 +126,12 @@ export default function Header({ active, onSelect }: Props) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                if (brandId === 'dota') {
+                  e.preventDefault()
+                  openWhatsAppModal(brand.whatsappMessage)
+                }
+              }}
               className="inline-flex items-center gap-2.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2 text-sm font-bold shadow-[0_2px_12px_rgba(37,211,102,0.35)] hover:shadow-[0_4px_18px_rgba(37,211,102,0.5)] transition-all duration-200 hover:scale-[1.04] active:scale-95 ml-1 tracking-wide"
               aria-label="Contactar por WhatsApp"
             >
@@ -258,6 +266,13 @@ export default function Header({ active, onSelect }: Props) {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (brandId === 'dota') {
+                      e.preventDefault()
+                      setMenuOpen(false)
+                      openWhatsAppModal(brand.whatsappMessage)
+                    }
+                  }}
                   initial={reduced ? false : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.3 }}

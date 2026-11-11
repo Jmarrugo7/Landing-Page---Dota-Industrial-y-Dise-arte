@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { getWhatsAppUrl } from '../data/brands'
+import { useWhatsAppModal } from '../context/WhatsAppModalContext'
 
 const ease = [0.22, 0.8, 0.24, 1] as const
 
@@ -162,6 +163,7 @@ function ArrowRightIcon() {
 
 export default function ContactSection() {
   const reduced = useReducedMotion() ?? false
+  const { openWhatsAppModal } = useWhatsAppModal()
 
   const enter = (d: number) =>
     reduced
@@ -311,6 +313,10 @@ export default function ContactSection() {
                 href={advisoryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  openWhatsAppModal(ADVISORY_MSG)
+                }}
                 className="contact-channel-item"
               >
                 <div className="contact-channel-badge">
@@ -352,6 +358,10 @@ export default function ContactSection() {
               href={advisoryUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault()
+                openWhatsAppModal(ADVISORY_MSG)
+              }}
               className="btn btn-accent contact-cta-primary"
             >
               <ChatButtonIcon />

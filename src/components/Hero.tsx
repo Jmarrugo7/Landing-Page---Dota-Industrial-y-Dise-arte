@@ -7,6 +7,7 @@ import Coverflow from './Coverflow'
 import { ErrorBoundary } from './ErrorBoundary'
 import { BRANDS, getWhatsAppUrl } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
+import { useWhatsAppModal } from '../context/WhatsAppModalContext'
 
 const HeroStage = lazy(() => import('../three/HeroStage'))
 
@@ -17,6 +18,7 @@ const ease = [0.22, 0.8, 0.24, 1] as const
 export default function Hero({ modalOpen, onDetails }: Props) {
   const reduced = useReducedMotion() ?? false
   const webgl = useWebGL()
+  const { openWhatsAppModal } = useWhatsAppModal()
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref)
   const [active, setActive] = useState(0)
@@ -127,6 +129,10 @@ export default function Hero({ modalOpen, onDetails }: Props) {
             href={getWhatsAppUrl(BRANDS.dota.whatsappPhone, BRANDS.dota.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault()
+              openWhatsAppModal(BRANDS.dota.whatsappMessage)
+            }}
             className="btn btn-whatsapp group min-h-14 px-7 gap-2.5"
             aria-label="Contactar por WhatsApp con Dota Industrial"
           >

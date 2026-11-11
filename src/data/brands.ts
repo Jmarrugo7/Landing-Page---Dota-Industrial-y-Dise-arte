@@ -87,6 +87,40 @@ export const BRANDS: Record<BrandId, BrandConfig> = {
   },
 }
 
+export interface WhatsAppLine {
+  id: string
+  label: string
+  number: string
+  formatted: string
+}
+
+export const DOTA_WHATSAPP_LINES: WhatsAppLine[] = [
+  {
+    id: 'linea-1',
+    label: 'Línea de Atención 1',
+    number: '573126572895',
+    formatted: '312 657 2895',
+  },
+  {
+    id: 'linea-2',
+    label: 'Línea de Atención 2',
+    number: '573113926189',
+    formatted: '311 392 6189',
+  },
+  {
+    id: 'linea-3',
+    label: 'Línea de Atención 3',
+    number: '573233430176',
+    formatted: '323 343 0176',
+  },
+  {
+    id: 'linea-4',
+    label: 'Línea de Atención 4',
+    number: '573042448695',
+    formatted: '304 244 8695',
+  },
+]
+
 export function getWhatsAppUrl(phone: string, message: string) {
   const cleanPhone = phone.replace(/[^0-9]/g, '')
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`

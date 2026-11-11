@@ -13,7 +13,9 @@ import VisitSection from './components/VisitSection'
 import DisenVisitSection from './components/DisenVisitSection'
 import Footer from './components/Footer'
 import BrandToggle from './components/BrandToggle'
+import WhatsAppLinesModal from './components/WhatsAppLinesModal'
 import { BrandProvider, useBrand } from './hooks/useBrand'
+import { WhatsAppModalProvider } from './context/WhatsAppModalContext'
 import type { Product } from './data/products'
 import type { DisenProduct } from './data/disenProducts'
 import { BRANDS } from './data/brands'
@@ -210,6 +212,7 @@ function AppContent() {
         {selectedDota && <ProductModal key={selectedDota.id} product={selectedDota} onClose={closeDotaDetails} />}
         {selectedDisen && <DisenProductModal key={selectedDisen.id} product={selectedDisen} onClose={closeDisenDetails} />}
       </AnimatePresence>
+      <WhatsAppLinesModal />
     </>
   )
 }
@@ -217,7 +220,9 @@ function AppContent() {
 export default function App() {
   return (
     <BrandProvider>
-      <AppContent />
+      <WhatsAppModalProvider>
+        <AppContent />
+      </WhatsAppModalProvider>
     </BrandProvider>
   )
 }

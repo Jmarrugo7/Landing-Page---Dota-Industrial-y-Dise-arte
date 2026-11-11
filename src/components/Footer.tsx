@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useBrand } from '../hooks/useBrand'
 import { getWhatsAppUrl } from '../data/brands'
+import { useWhatsAppModal } from '../context/WhatsAppModalContext'
 
 const DOTA_MAPS_LINK =
   'https://www.google.com/maps/place/dotaindustrial+sas/@10.3737214,-75.5019221,19z/data=!4m6!3m5!1s0x8ef6270024242a49:0xd49732c234ce3134!8m2!3d10.3736781!4d-75.5013732!16s%2Fg%2F11xff3n18f?entry=ttu&g_ep=EgoyMDI2MTAyNy4wIKXMDSoASAFQAw%3D%3D'
@@ -10,6 +11,7 @@ const DISEN_MAPS_LINK =
 
 export default function Footer() {
   const { brandId, brand } = useBrand()
+  const { openWhatsAppModal } = useWhatsAppModal()
   const isDota = brandId === 'dota'
   const currentYear = new Date().getFullYear()
 
@@ -81,6 +83,12 @@ export default function Footer() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => {
+                  if (isDota) {
+                    e.preventDefault()
+                    openWhatsAppModal(brand.whatsappMessage)
+                  }
+                }}
                 aria-label="Contactar por WhatsApp"
                 className="grid h-10 w-10 place-items-center rounded-xl bg-surface-2 border border-white/10 text-ink transition-all duration-300 hover:bg-accent hover:text-accent-ink hover:scale-105"
               >
@@ -261,6 +269,12 @@ export default function Footer() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (isDota) {
+                      e.preventDefault()
+                      openWhatsAppModal(brand.whatsappMessage)
+                    }
+                  }}
                   className="transition-colors hover:text-accent font-medium text-ink"
                 >
                   Cotizar por WhatsApp

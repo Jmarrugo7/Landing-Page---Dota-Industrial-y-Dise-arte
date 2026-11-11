@@ -61,10 +61,11 @@ export const DISEN_PRODUCTS: DisenProduct[] = [
     features: ['Borde rojo y símbolo en relieve', 'Fondo y letras con hilo de alta densidad', 'Se cose o se adhiere al uniforme'], alt: 'Parche bordado con cruz blanca y el texto Misión Médica',
   },
   {
-    id: 'bordado-suete-negro-proceso', name: 'Bordado de Logo en Suéter Negro Tipo Polo', price: 0, category: 'Bordados',
-    image: '/assets/products/disenarte-bordado-suete-negro-proceso.png?v=2',
-    description: 'Logo empresarial en hilo naranja bordado sobre suéter negro tipo polo, visto en la máquina.',
-    features: ['Bordado en máquina multiaguja', 'Hilo naranja sobre prenda oscura', 'Logo completo con nombre de la empresa'], alt: 'Máquina bordando un logo naranja sobre suéter negro',
+    id: 'servicio-bordado-empresarial', name: 'Servicio de Bordado Empresarial', price: 0, category: 'Bordados', featured: true, inCarousel: true,
+    image: '/assets/products/disenarte-servicio-bordado-empresarial.png?v=2',
+    description: 'Bordamos el logo de tu empresa en uniformes, dotación, gorras y prendas corporativas, en tirajes pequeños o grandes, con máquinas bordadoras industriales de varias cabezas.',
+    features: ['Producción en serie con máquina industrial multicabezal', 'Hilos de colores firmes, con relieve y acabado profesional', 'Para uniformes, dotación, polos, camisas, gorras y parches'],
+    alt: 'Máquina bordadora industrial de cuatro cabezas bordando logos sobre prendas de denim',
   },
   {
     id: 'bordado-suete-gris-proceso', name: 'Bordado de Logo en Suéter Gris Tipo Polo', price: 0, category: 'Bordados', inCarousel: true,
@@ -143,6 +144,12 @@ export const DISEN_PRODUCTS: DisenProduct[] = [
     image: '/assets/products/disenarte-mug-seleccion.png?v=2',
     description: 'Mug para los hinchas de la selección, con frase y balón en los colores patrios.',
     features: ['Frase de aliento personalizable', 'Colores amarillo, azul y rojo', 'Cerámica de 11 oz'], alt: 'Mug sublimado amarillo con balón y la frase «Vamos mi Selección Colombia»',
+  },
+  {
+    id: 'bordado-suete-negro-proceso', name: 'Bordado de Logo en Suéter Negro Tipo Polo', price: 0, category: 'Bordados',
+    image: '/assets/products/disenarte-bordado-suete-negro-proceso.png?v=2',
+    description: 'Logo empresarial en hilo naranja bordado sobre suéter negro tipo polo, visto en la máquina.',
+    features: ['Bordado en máquina multiaguja', 'Hilo naranja sobre prenda oscura', 'Logo completo con nombre de la empresa'], alt: 'Máquina bordando un logo naranja sobre suéter negro',
   },
   {
     id: 'mug-anime', name: 'Mug con Diseño de Anime', price: 0, category: 'Artículos personalizados',
