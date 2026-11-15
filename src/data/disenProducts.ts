@@ -140,6 +140,20 @@ export const DISEN_PRODUCTS: DisenProduct[] = [
     features: ['Nombre bordado en hilo negro', 'Figura de girasol en relieve', 'Otras figuras a elección'], alt: 'Toalla blanca bordada con el nombre Juan Duran y un girasol',
   },
   {
+    id: 'impresion-gran-formato', name: 'Impresión en Gran Formato', price: 0, category: 'Publicidad y señalización', inCarousel: true,
+    image: '/assets/products/disenarte-impresion-gran-formato.png?v=2',
+    description: 'Imprimimos tu diseño a todo color en gran formato para pendones, banners, afiches, vallas y publicidad de tu negocio o evento.',
+    features: ['Impresión a todo color con buena definición', 'Pendones, banners, afiches y vinilos a la medida', 'Diseño y personalización de tu arte incluidos en el servicio'],
+    alt: 'Impresora de gran formato Redjet imprimiendo un banner de Diseñarte con el lema hecho con amor punto a punto',
+  },
+  {
+    id: 'senalizacion-seguridad', name: 'Señalización de Seguridad y Obra', price: 0, category: 'Publicidad y señalización',
+    image: '/assets/products/disenarte-senalizacion-seguridad.png?v=2',
+    description: 'Letreros de seguridad y señalización para empresas, obras, bodegas y establecimientos: prevención, prohibición, información y áreas de trabajo.',
+    features: ['Señales de peligro, prohibición e información', 'Textos y medidas a tu necesidad', 'Ejemplos: «Almacén», «Peligro: excavación abierta», «Punto de hidratación» y «Solo personal autorizado»'],
+    alt: 'Carteles de seguridad en español: Almacén, Peligro excavación abierta, Punto de hidratación y Solo personal autorizado no pase',
+  },
+  {
     id: 'mug-seleccion', name: 'Mug de Selección Colombia', price: 0, category: 'Artículos personalizados',
     image: '/assets/products/disenarte-mug-seleccion.png?v=2',
     description: 'Mug para los hinchas de la selección, con frase y balón en los colores patrios.',
@@ -241,6 +255,7 @@ export const DISEN_PRODUCTS: DisenProduct[] = [
     description: 'Logo con rayo, iniciales y razón social bordados en hilo azul y amarillo.',
     features: ['Combinación de hilos azul y amarillo', 'Letra pequeña legible', 'Para camisas, chalecos y gorras de dotación'], alt: 'Logo con rayo y círculo amarillo bordado sobre tela azul clara',
   },
+
 ]
 
 export const DISEN_CAROUSEL = DISEN_PRODUCTS.filter((p) => p.inCarousel)
