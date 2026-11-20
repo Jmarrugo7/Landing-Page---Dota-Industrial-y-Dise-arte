@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { DISEN_CAROUSEL, disenImgOf, type DisenProduct } from '../data/disenProducts'
+import { DISEN_CAROUSEL as DEFAULT_DISEN_CAROUSEL, disenImgOf, type DisenProduct } from '../data/disenProducts'
+import { getPublicHero } from '../data/api'
 import { useInView } from '../hooks/useInView'
 import { BRANDS, getWhatsAppUrl } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
@@ -13,12 +14,22 @@ export default function DisenHero({ modalOpen, onDetails }: Props) {
   const reduced = useReducedMotion() ?? false
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref)
+  const [carouselItems, setCarouselItems] = useState<DisenProduct[]>(DEFAULT_DISEN_CAROUSEL)
   const [active, setActive] = useState(0)
   const [userPaused, setUserPaused] = useState(false)
   const [hover, setHover] = useState(false)
   const [hidden, setHidden] = useState(false)
-  const n = DISEN_CAROUSEL.length
-  const p = DISEN_CAROUSEL[active]
+
+  useEffect(() => {
+    getPublicHero('disenarte').then((items) => {
+      if (Array.isArray(items) && items.length > 0) {
+        setCarouselItems(items)
+      }
+    })
+  }, [])
+
+  const n = carouselItems.length
+  const p = carouselItems[active] || carouselItems[0] || DEFAULT_DISEN_CAROUSEL[0]
 
   useEffect(() => {
     const f = () => setHidden(document.hidden)
@@ -178,7 +189,7 @@ export default function DisenHero({ modalOpen, onDetails }: Props) {
           if (e.key === 'ArrowLeft') { go(active - 1); e.preventDefault() }
         }}
       >
-        <DisenCoverflow items={DISEN_CAROUSEL} active={active} onSelect={go} />
+        <DisenCoverflow items={carouselItems} active={active} onSelect={go} />
       </div>
     </section>
   )

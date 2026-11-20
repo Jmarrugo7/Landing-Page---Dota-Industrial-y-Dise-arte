@@ -826,7 +826,8 @@ export const PRODUCTS: Product[] = [
 ]
 
 export const CAROUSEL = PRODUCTS.filter((p) => p.inCarousel)
-export const imgOf = (p: Pick<Product, 'id'>) => `/assets/products/${p.id}.png`
+export const imgOf = (p: { id?: string; imageUrl?: string; image?: string }) =>
+  p.imageUrl || p.image || (p.id ? `/assets/products/${p.id}.png` : '')
 
 const cop = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
 /** Precio en pesos colombianos; con 0 (o sin precio definido) muestra «Consultar precio». */

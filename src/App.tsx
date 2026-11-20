@@ -19,6 +19,7 @@ import { WhatsAppModalProvider } from './context/WhatsAppModalContext'
 import type { Product } from './data/products'
 import type { DisenProduct } from './data/disenProducts'
 import { BRANDS } from './data/brands'
+import { getPublicSections, type PublicSections } from './data/api'
 
 type SectionId = 'inicio' | 'productos' | 'contacto' | 'visitanos'
 
@@ -27,6 +28,16 @@ function AppContent() {
   const [selectedDota, setSelectedDota] = useState<Product | null>(null)
   const [selectedDisen, setSelectedDisen] = useState<DisenProduct | null>(null)
   const [section, setSection] = useState<SectionId>('inicio')
+  const [sectionsConfig, setSectionsConfig] = useState<PublicSections>({
+    inicio: true,
+    productos: true,
+    contacto: true,
+    visitanos: true,
+  })
+
+  useEffect(() => {
+    getPublicSections().then(setSectionsConfig)
+  }, [])
   const opener = useRef<HTMLElement | null>(null)
   const isManualNav = useRef(false)
   const manualNavTimer = useRef<number | null>(null)
@@ -183,10 +194,10 @@ function AppContent() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Hero modalOpen={!!selected} onDetails={openDotaDetails} />
-                <ProductsSection onDetails={openDotaDetails} />
-                <ContactSection />
-                <VisitSection />
+                {sectionsConfig.inicio && <Hero modalOpen={!!selected} onDetails={openDotaDetails} />}
+                {sectionsConfig.productos && <ProductsSection onDetails={openDotaDetails} />}
+                {sectionsConfig.contacto && <ContactSection />}
+                {sectionsConfig.visitanos && <VisitSection />}
                 <Footer />
               </motion.div>
             ) : (
@@ -197,10 +208,10 @@ function AppContent() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <DisenHero modalOpen={!!selected} onDetails={openDisenDetails} />
-                <DisenProductsSection onDetails={openDisenDetails} />
-                <DisenContactSection />
-                <DisenVisitSection />
+                {sectionsConfig.inicio && <DisenHero modalOpen={!!selected} onDetails={openDisenDetails} />}
+                {sectionsConfig.productos && <DisenProductsSection onDetails={openDisenDetails} />}
+                {sectionsConfig.contacto && <DisenContactSection />}
+                {sectionsConfig.visitanos && <DisenVisitSection />}
                 <Footer />
               </motion.div>
             )}

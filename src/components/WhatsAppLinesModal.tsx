@@ -1,15 +1,21 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { DOTA_WHATSAPP_LINES, getWhatsAppUrl, BRANDS } from '../data/brands'
+import { DOTA_WHATSAPP_LINES, getWhatsAppUrl, BRANDS, type WhatsAppLine } from '../data/brands'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { useWhatsAppModal } from '../context/WhatsAppModalContext'
+import { getPublicAttentionLines } from '../data/api'
 
 export default function WhatsAppLinesModal() {
   const { isOpen, message, closeWhatsAppModal } = useWhatsAppModal()
   const reduced = useReducedMotion() ?? false
   const closeBtnRef = useRef<HTMLButtonElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
+  const [lines, setLines] = useState<WhatsAppLine[]>(DOTA_WHATSAPP_LINES)
+
+  useEffect(() => {
+    getPublicAttentionLines('dota').then(setLines)
+  }, [])
 
   const activeMessage = message || BRANDS.dota.whatsappMessage
 
@@ -99,9 +105,9 @@ export default function WhatsAppLinesModal() {
                 </div>
               </div>
 
-              {/* 4 Lines List */}
+              {/* Lines List */}
               <div className="grid gap-2.5 sm:gap-3">
-                {DOTA_WHATSAPP_LINES.map((line) => (
+                {lines.map((line) => (
                   <a
                     key={line.id}
                     href={getWhatsAppUrl(line.number, activeMessage)}

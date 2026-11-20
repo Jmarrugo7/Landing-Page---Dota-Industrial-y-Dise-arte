@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'framer-motion'
-import { CATEGORIES, PRODUCTS, type Product } from '../data/products'
+import { CATEGORIES as DEFAULT_CATEGORIES, PRODUCTS as DEFAULT_PRODUCTS, type Product } from '../data/products'
+import { getPublicCategories, getPublicProducts } from '../data/api'
 import ProductCard from './ProductCard'
 
 interface Props { onDetails: (p: Product, opener: HTMLElement) => void }
@@ -9,14 +10,27 @@ const BATCH_SIZE = 12
 
 export default function ProductsSection({ onDetails }: Props) {
   const reduced = useReducedMotion()
-  type Cat = (typeof CATEGORIES)[number]
-  const [cat, setCat] = useState<Cat>(() => {
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES as string[])
+  const [products, setProducts] = useState<Product[]>(DEFAULT_PRODUCTS)
+  const [cat, setCat] = useState<string>(() => {
     const q = new URLSearchParams(window.location.search).get('categoria')
-    return (CATEGORIES.find((c) => c.toLowerCase() === q?.toLowerCase()) as Cat | undefined) ?? 'Todos'
+    return q || 'Todos'
   })
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE)
 
-  const choose = (c: Cat) => {
+  useEffect(() => {
+    getPublicCategories('dota').then((cats) => {
+      setCategories(cats)
+      const q = new URLSearchParams(window.location.search).get('categoria')
+      if (q) {
+        const found = cats.find((c) => c.toLowerCase() === q.toLowerCase())
+        if (found) setCat(found)
+      }
+    })
+    getPublicProducts('dota').then(setProducts)
+  }, [])
+
+  const choose = (c: string) => {
     setCat(c)
     setVisibleCount(BATCH_SIZE)
     const url = new URL(window.location.href)
@@ -25,7 +39,10 @@ export default function ProductsSection({ onDetails }: Props) {
     history.replaceState(null, '', url)
   }
 
-  const list = cat === 'Todos' ? PRODUCTS : PRODUCTS.filter((p) => p.category === cat)
+  const list =
+    cat === 'Todos'
+      ? products
+      : products.filter((p) => p.category?.toLowerCase() === cat.toLowerCase())
   const visibleList = list.slice(0, visibleCount)
   const hasMore = visibleCount < list.length
   const remaining = list.length - visibleCount
@@ -57,7 +74,7 @@ export default function ProductsSection({ onDetails }: Props) {
             aria-label="Filtrar por categoría"
             className="flex gap-2 lg:flex-wrap lg:justify-end overflow-x-auto max-lg:pb-2 max-lg:-mx-[max(var(--margin-page),env(safe-area-inset-left))] max-lg:px-[max(var(--margin-page),env(safe-area-inset-left))] scrollbar-hide snap-x snap-mandatory"
           >
-            {CATEGORIES.map((c) => (
+            {categories.map((c) => (
               <button
                 key={c}
                 type="button"

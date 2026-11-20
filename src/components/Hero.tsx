@@ -1,6 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { CAROUSEL, imgOf, type Product } from '../data/products'
+import { CAROUSEL as DEFAULT_CAROUSEL, imgOf, type Product } from '../data/products'
+import { getPublicHero } from '../data/api'
 import { useInView } from '../hooks/useInView'
 import { useWebGL } from '../hooks/useWebGL'
 import Coverflow from './Coverflow'
@@ -21,6 +22,7 @@ export default function Hero({ modalOpen, onDetails }: Props) {
   const { openWhatsAppModal } = useWhatsAppModal()
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref)
+  const [carouselItems, setCarouselItems] = useState<Product[]>(DEFAULT_CAROUSEL)
   const [active, setActive] = useState(0)
   const [userPaused, setUserPaused] = useState(false)
   const [hover, setHover] = useState(false)
@@ -28,8 +30,17 @@ export default function Hero({ modalOpen, onDetails }: Props) {
   const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
   const [hidden, setHidden] = useState(false)
-  const n = CAROUSEL.length
-  const p = CAROUSEL[active]
+
+  useEffect(() => {
+    getPublicHero('dota').then((items) => {
+      if (Array.isArray(items) && items.length > 0) {
+        setCarouselItems(items)
+      }
+    })
+  }, [])
+
+  const n = carouselItems.length
+  const p = carouselItems[active] || carouselItems[0] || DEFAULT_CAROUSEL[0]
 
   // three.js se descarga después del primer pintado
   useEffect(() => {
@@ -182,7 +193,7 @@ export default function Hero({ modalOpen, onDetails }: Props) {
           if (e.key === 'ArrowLeft') { go(active - 1); e.preventDefault() }
         }}
       >
-        <Coverflow items={CAROUSEL} active={active} onSelect={go} />
+        <Coverflow items={carouselItems} active={active} onSelect={go} />
       </div>
     </section>
   )

@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion, useSpring, useTransform } from 'framer-motion'
-import { DISEN_CATEGORIES, DISEN_PRODUCTS, disenImgOf, type DisenProduct } from '../data/disenProducts'
+import { DISEN_CATEGORIES as DEFAULT_DISEN_CATEGORIES, DISEN_PRODUCTS as DEFAULT_DISEN_PRODUCTS, disenImgOf, type DisenProduct } from '../data/disenProducts'
+import { getPublicCategories, getPublicProducts } from '../data/api'
 
 const LIFT = 'bg-surface-2 shadow-[0_28px_44px_-22px_rgba(0,0,0,.95)]'
 const BATCH_SIZE = 15
@@ -9,16 +10,25 @@ interface Props { onDetails: (p: DisenProduct, opener: HTMLElement) => void }
 
 export default function DisenProductsSection({ onDetails }: Props) {
   const reduced = useReducedMotion()
-  type Cat = (typeof DISEN_CATEGORIES)[number]
-  const [cat, setCat] = useState<Cat>('Todos')
+  const [categories, setCategories] = useState<string[]>(DEFAULT_DISEN_CATEGORIES as string[])
+  const [products, setProducts] = useState<DisenProduct[]>(DEFAULT_DISEN_PRODUCTS)
+  const [cat, setCat] = useState<string>('Todos')
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE)
 
-  const choose = (c: Cat) => {
+  useEffect(() => {
+    getPublicCategories('disenarte').then(setCategories)
+    getPublicProducts('disenarte').then(setProducts)
+  }, [])
+
+  const choose = (c: string) => {
     setCat(c)
     setVisibleCount(BATCH_SIZE)
   }
 
-  const list = cat === 'Todos' ? DISEN_PRODUCTS : DISEN_PRODUCTS.filter((p) => p.category === cat)
+  const list =
+    cat === 'Todos'
+      ? products
+      : products.filter((p) => p.category?.toLowerCase() === cat.toLowerCase())
   const visibleList = list.slice(0, visibleCount)
   const hasMore = visibleCount < list.length
   const remaining = list.length - visibleCount
@@ -52,7 +62,7 @@ export default function DisenProductsSection({ onDetails }: Props) {
             Descubre nuestra colección de bordados y estampados artesanales, creados con pasión y dedicación en cada detalle.
           </p>
           <div role="group" aria-label="Filtrar por categoría" className="flex flex-wrap gap-2 lg:justify-end">
-            {DISEN_CATEGORIES.map((c) => (
+            {categories.map((c) => (
               <button
                 key={c}
                 type="button"

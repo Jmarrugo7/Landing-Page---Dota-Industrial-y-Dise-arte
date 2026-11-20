@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { getPublicLocation } from '../data/api'
 
-const GOOGLE_MAPS_LINK =
+const DEFAULT_MAPS_LINK =
   'https://www.google.com/maps/place/dotaindustrial+sas/@10.3737214,-75.5019221,19z/data=!4m6!3m5!1s0x8ef6270024242a49:0xd49732c234ce3134!8m2!3d10.3736781!4d-75.5013732!16s%2Fg%2F11xff3n18f?entry=ttu&g_ep=EgoyMDI2MTAyNy4wIKXMDSoASAFQAw%3D%3D'
 
-const EMBED_MAP_SRC =
+const DEFAULT_EMBED_MAP_SRC =
   'https://www.google.com/maps?q=10.3736781,-75.5013732&z=17&output=embed'
 
 const ease = [0.22, 0.8, 0.24, 1] as const
@@ -53,6 +55,16 @@ function ArrowRight() {
 
 export default function VisitSection() {
   const reduced = useReducedMotion() ?? false
+  const [loc, setLoc] = useState<any>(null)
+
+  useEffect(() => {
+    getPublicLocation().then(setLoc)
+  }, [])
+
+  const mapsLink = loc?.googleMapsUrl || DEFAULT_MAPS_LINK
+  const embedSrc = loc?.embedMapUrl || DEFAULT_EMBED_MAP_SRC
+  const addressText = loc ? `${loc.address || ''}, ${loc.city || ''}` : '20 de Julio, Cartagena de Indias, Bolívar'
+  const phoneText = loc?.phone || '312 657 2895'
 
   const enter = (d: number) =>
     reduced
@@ -98,7 +110,7 @@ export default function VisitSection() {
               <span className="visit-icon"><LocationPin /></span>
               <div>
                 <p className="visit-row-title">Dirección</p>
-                <p className="visit-row-detail">20 de Julio, Cartagena de Indias, Bolívar</p>
+                <p className="visit-row-detail">{addressText}</p>
               </div>
             </motion.div>
 
@@ -112,15 +124,15 @@ export default function VisitSection() {
                 <div className="visit-hours">
                   <div className="visit-hours-row">
                     <span>Lunes a viernes</span>
-                    <span>7:00 a. m. – 5:00 p. m.</span>
+                    <span>{loc?.scheduleWeekdays || '7:00 a. m. – 5:00 p. m.'}</span>
                   </div>
                   <div className="visit-hours-row">
                     <span>Sábados</span>
-                    <span>7:00 a. m. – 3:00 p. m.</span>
+                    <span>{loc?.scheduleSaturdays || '7:00 a. m. – 3:00 p. m.'}</span>
                   </div>
                   <div className="visit-hours-row visit-hours-closed">
                     <span>Domingos</span>
-                    <span>Cerrado</span>
+                    <span>{loc?.scheduleSundays || 'Cerrado'}</span>
                   </div>
                 </div>
               </div>
@@ -133,14 +145,14 @@ export default function VisitSection() {
               <span className="visit-icon"><PhoneIcon /></span>
               <div>
                 <p className="visit-row-title">Teléfono</p>
-                <a href="tel:+573126572895" className="visit-row-detail visit-phone-link">312 657 2895</a>
+                <a href={`tel:${phoneText.replace(/[^0-9+]/g, '')}`} className="visit-row-detail visit-phone-link">{phoneText}</a>
               </div>
             </motion.div>
 
             {/* CTA */}
             <motion.div {...enter(0.4)}>
               <a
-                href={GOOGLE_MAPS_LINK}
+                href={mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-accent visit-cta"
@@ -159,7 +171,7 @@ export default function VisitSection() {
             <div className="visit-map-border">
               <iframe
                 title="Ubicación de Dota Industrial en Google Maps"
-                src={EMBED_MAP_SRC}
+                src={embedSrc}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
